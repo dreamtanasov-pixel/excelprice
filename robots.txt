@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dreamtanasov-pixel.github.io/excelprice/sitemap.xml
