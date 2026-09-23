@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExcelПрайс — Excel-прайсы для авторазборок</title>
+<style>
+  :root {
+    --bg: #f4f6f8;
+    --ink: #1f2a37;
+    --muted: #667085;
+    --accent: #2f5597;
+    --accent-soft: #eaf1fb;
+    --band: #2a7f77;
+    --card: #e8f5f3;
+    --border: #d7dee8;
+    --white: #fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: .3px; }
+  .logo span { color: var(--band); }
+  .nav a { text-decoration: none; color: var(--ink); font-weight: 600; margin-left: 28px; font-size: 15px; }
+  .nav a:hover { color: var(--accent); }
+  .nav .cta {
+    background: var(--accent); color: var(--white) !important;
+    padding: 9px 18px; border-radius: 8px; font-weight: 600;
+  }
+  .nav .cta:hover { background: var(--band); }
+
+  /* Hero */
+  .hero { padding: 72px 0 64px; }
+  .hero .badge {
+    display: inline-block; background: var(--accent-soft); color: var(--accent);
+    border-radius: 20px; padding: 5px 14px; font-size: 13px; font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .hero h1 { font-size: 42px; line-height: 1.2; margin-bottom: 16px; }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p.lead { font-size: 18px; color: var(--muted); max-width: 720px; margin-bottom: 30px; }
+  .hero .row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 600;
+    padding: 14px 28px; border-radius: 10px; font-size: 16px;
+  }
+  .btn-primary { background: var(--accent); color: var(--white); }
+  .btn-primary:hover { background: var(--band); }
+  .btn-outline { border: 2px solid var(--accent); color: var(--accent); }
+  .btn-outline:hover { background: var(--accent-soft); }
+  .hero .note { margin-top: 14px; font-size: 14px; color: var(--muted); }
+
+  /* Sections */
+  section { padding: 56px 0; scroll-margin-top: 70px; }
+  .alt { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  h2 { font-size: 30px; margin-bottom: 12px; }
+  .sub { color: var(--muted); margin-bottom: 34px; max-width: 720px; }
+
+  /* Cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px; box-shadow: 0 2px 6px rgba(31,42,55,.06);
+  }
+  .alt .card { background: var(--bg); }
+  .card h3 { font-size: 18px; margin-bottom: 10px; color: var(--accent); }
+  .card ul { list-style: none; }
+  .card li { padding: 5px 0 5px 22px; position: relative; color: var(--ink); }
+  .card li:before {
+    content: "✓"; position: absolute; left: 0; color: var(--band); font-weight: 700;
+  }
+  .card p { color: var(--muted); font-size: 15px; }
+
+  /* Process */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; counter-reset: step; }
+  .step {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    padding: 22px; counter-increment: step; position: relative;
+  }
+  .step:before {
+    content: counter(step); position: absolute; top: -14px; left: 20px;
+    background: var(--accent); color: var(--white); font-weight: 700;
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .step h3 { font-size: 16px; margin: 8px 0 6px; }
+  .step p { font-size: 14px; color: var(--muted); }
+
+  /* Sample */
+  .sample {
+    background: linear-gradient(135deg, var(--accent-soft), var(--card));
+    border: 1px solid var(--border); border-radius: 14px; padding: 28px;
+    display: flex; flex-wrap: wrap; gap: 24px; align-items: center;
+  }
+  .sample .txt { flex: 1 1 320px; }
+  .sample .txt h3 { font-size: 20px; margin-bottom: 8px; }
+  .sample .txt p { color: var(--muted); }
+  .sample .stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .stat .n { font-size: 30px; font-weight: 800; color: var(--accent); }
+  .stat .l { font-size: 13px; color: var(--muted); }
+
+  /* Pricing */
+  .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .price-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 26px; }
+  .price-card.popular { border: 2px solid var(--accent); box-shadow: 0 4px 16px rgba(47,85,151,.15); }
+  .price-card h3 { font-size: 16px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .price-card .price { font-size: 34px; font-weight: 800; margin-bottom: 14px; }
+  .price-card .price small { font-size: 15px; font-weight: 400; color: var(--muted); }
+  .price-card ul { list-style: none; margin-bottom: 18px; }
+  .price-card li { padding: 4px 0 4px 22px; position: relative; font-size: 14px; }
+  .price-card li:before { content: "✓"; position: absolute; left: 0; color: var(--band); font-weight: 700; }
+  .price-tag { position: absolute; } /* placeholder */
+
+  /* Contacts */
+  .contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .contact-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+  .contact-card .ico { font-size: 28px; margin-bottom: 10px; }
+  .contact-card h3 { font-size: 16px; margin-bottom: 6px; }
+  .contact-card a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 18px; }
+  .contact-card a:hover { text-decoration: underline; }
+  .contact-card p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+  footer { background: var(--ink); color: #cfd6df; padding: 28px 0; font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .nav a { margin-left: 16px; font-size: 14px; }
+    h2 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">Excel<span>Прайс</span></div>
+    <div>
+      <a href="#services">Услуги</a>
+      <a href="#process">Как работаю</a>
+      <a href="#pricing">Цены</a>
+      <a href="#contacts" class="cta">Связаться</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="badge">Услуга для авторазборок и магазинов запчастей</div>
+    <h1>Готовые Excel-прайсы<br>для <span class="accent">авторазборок</span> за 1–2 дня</h1>
+    <p class="lead">Собираю актуальные цены на бу-запчасти по вашей модели авто, структурирую в удобные таблицы с категориями, артикулами и диапазонами цен. Вы получаете готовый файл — остаётся выложить на Авито или отдать менеджерам.</p>
+    <div class="row">
+      <a class="btn btn-primary" href="#contacts">Заказать прайс</a>
+      <a class="btn btn-outline" href="#sample">Посмотреть пример</a>
+    </div>
+    <div class="note">Пример: прайс Mercedes E200 (W210) — 92 позиции по 7 категориям.</div>
+  </div>
+</section>
+
+<section class="alt" id="services">
+  <div class="wrap">
+    <h2>Что я делаю</h2>
+    <p class="sub">Вместо хаоса из десятков вкладок и звонков разборкам — одна аккуратная таблица с ценами.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Прайс-листы по моделям</h3>
+        <ul>
+          <li>Подбор актуальных цен на бу-запчасти</li>
+          <li>Разбивка по категориям: двигатель, КПП, подвеска, кузов, электрика, салон</li>
+          <li>Артикулы и ориентиры по каталогу</li>
+          <li>Диапазоны цен: мин / макс / средняя</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Под ключ</h3>
+        <ul>
+          <li>Оформление по вашему шаблону или фирменному стилю</li>
+          <li>Примечания для менеджеров и покупателей</li>
+          <li>Лист с источниками и площадками</li>
+          <li>Дашборд-сводка по категориям</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Отдельные задачи</h3>
+        <ul>
+          <li>Сравнение цен по регионам (вся Россия / ваш город)</li>
+          <li>Проверка выгрузок из 1С и каталогов</li>
+          <li>Пересборка и доработка старых таблиц</li>
+          <li>Разовые и регулярные обновления цен</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <h2>Как проходит работа</h2>
+    <p class="sub">Минимум вашего участия — вы даёте модель, а иногда даже название. Остальное делаю я.</p>
+    <div class="steps">
+      <div class="step">
+        <h3>Заявка</h3>
+        <p>Вы пишете: марка, модель, год, тип двигателя и список нужных деталей.</p>
+      </div>
+      <div class="step">
+        <h3>Сбор цен</h3>
+        <p>Изучаю Avito, Drom, разборки и контрактные магазины по вашей модели.</p>
+      </div>
+      <div class="step">
+        <h3>Сборка файла</h3>
+        <p>Структурирую в Excel: категории, артикулы, мин/макс/средняя цена, примечания.</p>
+      </div>
+      <div class="step">
+        <h3>Сдача и правки</h3>
+        <p>Отправляю файл. Вношу правки — до 2 итераций бесплатно.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="sample">
+  <div class="wrap">
+    <h2>Пример выполненной работы</h2>
+    <p class="sub">Этот файл был собран по запросу «цены на все бу-запчасти для 2-литрового Mercedes E210 1996».</p>
+    <div class="sample">
+      <div class="txt">
+        <h3>Прайс: Mercedes-Benz E200 (W210) 2.0, 1996</h3>
+        <p>Полный ассортимент бу-запчастей по российскому рынку: двигатель, КПП, подвеска, тормоза, кузов, электрика, салон. Дата актуализации: сентябрь 2026.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">92</div><div class="l">позиции</div></div>
+        <div class="stat"><div class="n">7</div><div class="l">категорий</div></div>
+        <div class="stat"><div class="n">75</div><div class="l">с фиксированной ценой</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>Цены</h2>
+    <p class="sub">Стоимость зависит от сложности и количества позиций. Ориентиры ниже — финальную цену назову после заявки.</p>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>Экспресс</h3>
+        <div class="price">от 1 500 ₽</div>
+        <ul>
+          <li>До 30 позиций</li>
+          <li>1 категория</li>
+          <li>Срок: 1 день</li>
+        </ul>
+      </div>
+      <div class="price-card popular">
+        <h3>Стандарт</h3>
+        <div class="price">от 3 000 ₽</div>
+        <ul>
+          <li>До 100 позиций</li>
+          <li>Все категории</li>
+          <li>Дашборд-сводка</li>
+          <li>Срок: 1–2 дня</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <h3>Регулярно</h3>
+        <div class="price">от 2 000 ₽<small> / мес</small></div>
+        <ul>
+          <li>Ежемесячное обновление цен</li>
+          <li>Приоритетная очередь</li>
+          <li>Скидка на повторные заказы</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="contacts">
+  <div class="wrap">
+    <h2>Связаться</h2>
+    <p class="sub">Позвоните или напишите — расскажу цену за 10 минут и приступлю в тот же день.</p>
+    <div class="contacts">
+      <div class="contact-card">
+        <div class="ico">&#9742;</div>
+        <h3>Телефон</h3>
+        <a href="tel:+79000004469">+7 (900) 000-44-69</a>
+        <p>Звонок или WhatsApp — ежедневно с 9:00 до 21:00</p>
+      </div>
+      <div class="contact-card">
+        <div class="ico">&#9993;</div>
+        <h3>Email</h3>
+        <a href="mailto:dream.tanassov@gmail.com">dream.tanassov@gmail.com</a>
+        <p>Отвечаю в течение часа</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 ExcelПрайс</div>
+    <div>Excel-прайсы для авторазборок и магазинов запчастей</div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var id = link.getAttribute("href").slice(1);
+    var el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    var headerH = 64;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - headerH;
+    window.scrollTo({ top: top, behavior: "smooth" });
+    history.replaceState(null, "", "#" + id);
+  });
+</script>
+</body>
+</html>
