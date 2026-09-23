@@ -61,7 +61,8 @@
     position: sticky; top: 0; z-index: 10;
   }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: .3px; }
+  .logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: .3px; display: flex; align-items: center; gap: 10px; }
+  .logo img { height: 36px; width: auto; }
   .logo span { color: var(--band); }
   .nav a { text-decoration: none; color: var(--ink); font-weight: 600; margin-left: 28px; font-size: 15px; }
   .nav a:hover { color: var(--accent); }
@@ -176,7 +177,7 @@
 
 <header>
   <div class="wrap nav">
-    <div class="logo">Excel<span>Прайс</span></div>
+    <div class="logo"><img src="logo-muscle-car.jpg" alt="">Excel<span>Прайс</span></div>
     <div>
       <a href="#services">Услуги</a>
       <a href="#process">Как работаю</a>
