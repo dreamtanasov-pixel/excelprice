@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dreamtanasov-pixel.github.io/excelprice/sitemap.xml
+Sitemap: https://xn----8sbnaa0acj2bkfi.xn--p1ai/sitemap.xml
