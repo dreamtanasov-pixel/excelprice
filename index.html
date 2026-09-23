@@ -362,6 +362,13 @@
 </footer>
 
 <script>
+  window.addEventListener("load", function () {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+  });
+
   document.addEventListener("click", function (e) {
     var link = e.target.closest('a[href^="#"]');
     if (!link) return;
