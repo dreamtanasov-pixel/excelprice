@@ -524,11 +524,13 @@
 
     var phoneField = document.getElementById("f-phone");
     var phoneVal = phoneField.value.trim();
-    var phoneOk = /^\+?[0-9\s\-\(\)]{10,18}$/.test(phoneVal) || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(phoneVal);
-    if (!phoneOk) {
+    var phoneDigits = phoneVal.replace(/[^\d]/g, "");
+    var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(phoneVal);
+    var isPhone = phoneDigits.length >= 9 && phoneDigits.length <= 13;
+    if (!isPhone && !isEmail) {
       phoneField.style.outline = "2px solid #b42318";
       phoneField.style.borderColor = "#b42318";
-      error.textContent = "Проверьте телефон (например, +7 900 000-00-00) или укажите корректный email.";
+      error.textContent = "Проверьте телефон: достаточно 9–13 цифр (например, 890000044 или 79000004469), либо укажите email.";
       error.classList.add("visible");
       phoneField.focus();
       return;
