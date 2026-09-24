@@ -178,8 +178,12 @@
   .contact-card a:hover { text-decoration: underline; }
   .contact-card p { color: var(--muted); font-size: 14px; margin-top: 6px; }
 
-  footer { background: var(--ink); color: #cfd6df; padding: 28px 0; font-size: 14px; }
-  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  footer { background: var(--ink); color: #cfd6df; padding: 32px 0 24px; font-size: 14px; }
+  footer .wrap { display: flex; flex-direction: column; gap: 14px; }
+  footer .foot-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: #9db4c8; text-decoration: underline; }
+  footer .rights { font-size: 13px; color: #8fa3b6; }
+  footer .disclaimer { font-size: 12px; color: #71879c; line-height: 1.5; max-width: 760px; }
 
   @media (max-width: 640px) {
     .wrap { padding: 0 14px; }
@@ -208,6 +212,8 @@
     .contacts { grid-template-columns: 1fr; gap: 14px; }
     .contact-card { padding: 20px; }
     footer .wrap { flex-direction: column; gap: 8px; text-align: center; }
+    footer .foot-row { flex-direction: column; gap: 6px; }
+    footer .disclaimer { text-align: left; }
   }
 
   @media (max-width: 380px) {
@@ -387,8 +393,15 @@
 
 <footer>
   <div class="wrap">
-    <div>© 2026 ExcelПрайс</div>
-    <div>Excel-прайсы для автовладельцев, авторазборок и магазинов запчастей</div>
+    <div class="foot-row">
+      <div class="rights">© 2026 ExcelПрайс. Все права защищены.</div>
+      <div class="rights">Excel-прайсы для автовладельцев, авторазборок и магазинов запчастей</div>
+    </div>
+    <div class="foot-row">
+      <div class="rights">ИП ____________, ИНН ____________, ОГРНИП ____________</div>
+      <div class="rights"><a href="#contacts">Контакты</a> · <a href="#pricing">Цены</a></div>
+    </div>
+    <div class="disclaimer">Данные о ценах на бу-запчасти собраны из открытых публичных источников (Avito, Дром, каталоги разборок) и носят справочный характер. Стоимость деталей может меняться в зависимости от региона, состояния и продавца. Использование материалов сайта без разрешения правообладателя запрещено.</div>
   </div>
 </footer>
 
