@@ -508,13 +508,40 @@
     var error = document.getElementById("formError");
     success.classList.remove("visible");
     error.classList.remove("visible");
+
+    var yearField = document.getElementById("f-year");
+    var yearVal = yearField.value.trim();
+    var yearNum = Number(yearVal);
+    if (!/^\d{4}$/.test(yearVal) || yearNum < 1900 || yearNum > new Date().getFullYear() + 1) {
+      yearField.style.outline = "2px solid #b42318";
+      yearField.style.borderColor = "#b42318";
+      error.textContent = "Год выпуска некорректен — укажите 4 цифры (например, 2019).";
+      error.classList.add("visible");
+      yearField.focus();
+      return;
+    }
+    yearField.style.outline = "";
+
+    var phoneField = document.getElementById("f-phone");
+    var phoneVal = phoneField.value.trim();
+    var phoneOk = /^\+?[0-9\s\-\(\)]{10,18}$/.test(phoneVal) || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(phoneVal);
+    if (!phoneOk) {
+      phoneField.style.outline = "2px solid #b42318";
+      phoneField.style.borderColor = "#b42318";
+      error.textContent = "Проверьте телефон (например, +7 900 000-00-00) или укажите корректный email.";
+      error.classList.add("visible");
+      phoneField.focus();
+      return;
+    }
+    phoneField.style.outline = "";
+
     var payload = {
       brand: document.getElementById("f-brand").value,
-      year: document.getElementById("f-year").value,
+      year: yearVal,
       engine: document.getElementById("f-engine").value,
       plan: document.getElementById("f-plan").value,
       name: document.getElementById("f-name").value,
-      phone: document.getElementById("f-phone").value
+      phone: phoneVal
     };
     var btn = this.querySelector("button[type=submit]");
     var btnText = btn.textContent;
