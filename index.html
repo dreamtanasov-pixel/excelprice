@@ -524,13 +524,15 @@
 
     var phoneField = document.getElementById("f-phone");
     var phoneVal = phoneField.value.trim();
-    var phoneDigits = phoneVal.replace(/[^\d]/g, "");
+    var phoneRegex = /^(?:\+?[78]?)[\s\-()]*(\d[\s\-()]*){8,12}$/;
+    var phoneOnlyAllowed = /^[\d\s+\-()]+$/.test(phoneVal);
+    var phoneRightLength = phoneVal.replace(/[^\d]/g, "").length >= 9 && phoneVal.replace(/[^\d]/g, "").length <= 13;
     var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(phoneVal);
-    var isPhone = phoneDigits.length >= 9 && phoneDigits.length <= 13;
+    var isPhone = phoneRegex.test(phoneVal) && phoneOnlyAllowed && phoneRightLength;
     if (!isPhone && !isEmail) {
       phoneField.style.outline = "2px solid #b42318";
       phoneField.style.borderColor = "#b42318";
-      error.textContent = "Проверьте телефон: достаточно 9–13 цифр (например, 890000044 или 79000004469), либо укажите email.";
+      error.textContent = "Проверьте формат телефона: цифры от 9 до 13, можно +7, 8, скобки, пробелы и дефисы (например, 890000044 или +7 900 000-44-69), либо укажите email.";
       error.classList.add("visible");
       phoneField.focus();
       return;
