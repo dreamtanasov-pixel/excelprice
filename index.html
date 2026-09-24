@@ -361,6 +361,7 @@
           <li>1 категория</li>
           <li>Срок: 1 день</li>
         </ul>
+        <a class="btn btn-primary btn-plan" href="#order" data-plan="Экспресс">Выбрать Экспресс</a>
       </div>
       <div class="price-card popular">
         <h3>Стандарт</h3>
@@ -371,6 +372,7 @@
           <li>Дашборд-сводка</li>
           <li>Срок: 1–2 дня</li>
         </ul>
+        <a class="btn btn-primary btn-plan" href="#order" data-plan="Стандарт">Выбрать Стандарт</a>
       </div>
       <div class="price-card">
         <h3>Регулярно</h3>
@@ -380,6 +382,7 @@
           <li>Приоритетная очередь</li>
           <li>Скидка на повторные заказы</li>
         </ul>
+        <a class="btn btn-primary btn-plan" href="#order" data-plan="Регулярно">Выбрать Регулярно</a>
       </div>
     </div>
   </div>
@@ -414,6 +417,16 @@
             <option value="3.0+">3.0 и больше</option>
             <option value="электро">Электро</option>
             <option value="другой">Другое</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-plan">Нужный тариф</label>
+          <select id="f-plan" name="plan">
+            <option value="">Выберите (необязательно)</option>
+            <option value="Экспресс">Экспресс — от 1 500 ₽</option>
+            <option value="Стандарт">Стандарт — от 3 000 ₽</option>
+            <option value="Регулярно">Регулярно — от 2 000 ₽/мес</option>
+            <option value="Пока не знаю">Пока не знаю — нужна консультация</option>
           </select>
         </div>
         <div class="field">
@@ -491,6 +504,7 @@
       brand: document.getElementById("f-brand").value,
       year: document.getElementById("f-year").value,
       engine: document.getElementById("f-engine").value,
+      plan: document.getElementById("f-plan").value,
       name: document.getElementById("f-name").value,
       phone: document.getElementById("f-phone").value
     };
@@ -509,6 +523,14 @@
     }).finally(function () {
       btn.disabled = false;
       btn.textContent = btnText;
+    });
+  });
+
+  document.querySelectorAll(".btn-plan").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      var plan = btn.getAttribute("data-plan");
+      var sel = document.getElementById("f-plan");
+      if (sel) sel.value = plan;
     });
   });
 
