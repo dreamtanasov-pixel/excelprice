@@ -396,15 +396,19 @@
       <form id="orderForm">
         <div class="field">
           <label for="f-brand">Марка авто</label>
-          <input type="text" id="f-brand" name="brand" placeholder="Например: Kia" required>
+          <input type="text" id="f-brand" name="brand" placeholder="Например: Kia" required
+            autocomplete="off" autocapitalize="words" spellcheck="true" maxlength="40"
+            aria-label="Марка авто">
         </div>
         <div class="field">
           <label for="f-year">Год выпуска</label>
-          <input type="text" id="f-year" name="year" placeholder="Например: 2019" inputmode="numeric" required>
+          <input type="number" id="f-year" name="year" placeholder="2019" required
+            inputmode="numeric" pattern="[0-9]{4}" min="1900" max="2030" step="1" maxlength="4"
+            aria-label="Год выпуска">
         </div>
         <div class="field">
           <label for="f-engine">Литраж двигателя</label>
-          <select id="f-engine" name="engine" required>
+          <select id="f-engine" name="engine" required aria-label="Литраж двигателя">
             <option value="">Выберите</option>
             <option value="1.0">1.0</option>
             <option value="1.3">1.3</option>
@@ -421,7 +425,7 @@
         </div>
         <div class="field">
           <label for="f-plan">Нужный тариф</label>
-          <select id="f-plan" name="plan">
+          <select id="f-plan" name="plan" aria-label="Нужный тариф">
             <option value="">Выберите (необязательно)</option>
             <option value="Экспресс">Экспресс — от 1 500 ₽</option>
             <option value="Стандарт">Стандарт — от 3 000 ₽</option>
@@ -431,15 +435,19 @@
         </div>
         <div class="field">
           <label for="f-name">Ваше имя</label>
-          <input type="text" id="f-name" name="name" placeholder="Имя" required>
+          <input type="text" id="f-name" name="name" placeholder="Имя" required
+            autocomplete="name" autocapitalize="words" spellcheck="true" maxlength="50"
+            aria-label="Ваше имя">
         </div>
         <div class="field">
           <label for="f-phone">Телефон или почта для связи</label>
-          <input type="text" id="f-phone" name="phone" placeholder="+7 900 000-00-00 или email" required>
+          <input type="tel" id="f-phone" name="phone" placeholder="+7 900 000-00-00 или email" required
+            autocomplete="tel" inputmode="tel" maxlength="50"
+            aria-label="Телефон или почта для связи">
         </div>
         <div class="field">
           <label style="display:flex;align-items:flex-start;gap:8px;font-size:13px;font-weight:400;cursor:pointer;">
-            <input type="checkbox" id="f-consent" required style="width:auto;margin-top:2px;">
+            <input type="checkbox" id="f-consent" name="consent" required style="width:auto;margin-top:2px;" aria-label="Согласие на обработку персональных данных">
             <span>Соглашаюсь на обработку персональных данных и с <a href="policy.html" target="_blank">политикой конфиденциальности</a></span>
           </label>
         </div>
