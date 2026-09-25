@@ -76,7 +76,7 @@
     position: sticky; top: 0; z-index: 10;
   }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: .3px; display: flex; align-items: center; gap: 10px; }
+.logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: .3px; display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
   .logo img { height: 36px; width: auto; }
   .logo span { color: var(--band); }
   .nav a { text-decoration: none; color: var(--ink); font-weight: 600; margin-left: 28px; font-size: 15px; }
@@ -250,7 +250,7 @@
 
 <header>
   <div class="wrap nav">
-    <div class="logo"><img src="logo-muscle-car.jpg" alt="">Excel<span>Прайс</span></div>
+    <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"><img src="logo-muscle-car.jpg" alt="">Excel<span>Price</span></a>
     <div>
       <a href="#services">Услуги</a>
       <a href="#process">Как работаю</a>
