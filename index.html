@@ -1006,69 +1006,78 @@ document.addEventListener("click", function (e) {
   var pendingModel = null;
   var pendingBtn = null;
 
-  var buyModal = document.getElementById("buyModal");
-  var buyEmail = document.getElementById("buyEmail");
-  var buyModelName = document.getElementById("buyModalModel");
+  function initBuy() {
+    var buyModal = document.getElementById("buyModal");
+    var buyEmail = document.getElementById("buyEmail");
+    var buyModelName = document.getElementById("buyModalModel");
+    if (!buyModal || !buyEmail) return;
 
-  document.addEventListener("click", function (e) {
-    var btn = e.target.closest(".btn-buy");
-    if (!btn) return;
-    e.preventDefault();
-    var card = btn.closest(".product-card");
-    if (!card) return;
-    var modelId = card.getAttribute("data-model");
-    if (!modelId) return;
-    pendingModel = modelId;
-    pendingBtn = btn;
-    buyModelName.textContent = card.querySelector("h3") ? card.querySelector("h3").textContent : "";
-    buyEmail.value = "";
-    buyEmail.focus();
-    buyModal.style.display = "flex";
-  });
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest(".btn-buy");
+      if (!btn) return;
+      e.preventDefault();
+      var card = btn.closest(".product-card");
+      if (!card) return;
+      var modelId = card.getAttribute("data-model");
+      if (!modelId) return;
+      pendingModel = modelId;
+      pendingBtn = btn;
+      buyModelName.textContent = card.querySelector("h3") ? card.querySelector("h3").textContent : "";
+      buyEmail.value = "";
+      buyEmail.focus();
+      buyModal.style.display = "flex";
+    });
 
-  document.getElementById("buyCancel").addEventListener("click", function () {
-    buyModal.style.display = "none";
-    pendingModel = null; pendingBtn = null;
-  });
+    document.getElementById("buyCancel").addEventListener("click", function () {
+      buyModal.style.display = "none";
+      pendingModel = null; pendingBtn = null;
+    });
 
-  buyModal.addEventListener("click", function (e) {
-    if (e.target === buyModal) { buyModal.style.display = "none"; pendingModel = null; pendingBtn = null; }
-  });
+    buyModal.addEventListener("click", function (e) {
+      if (e.target === buyModal) { buyModal.style.display = "none"; pendingModel = null; pendingBtn = null; }
+    });
 
-  document.getElementById("buySubmit").addEventListener("click", function () {
-    var email = buyEmail.value.trim();
-    var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-    if (!isEmail) { buyEmail.style.outline = "2px solid #b42318"; buyEmail.focus(); return; }
-    buyEmail.style.outline = "";
-    buyModal.style.display = "none";
-    var modelId = pendingModel; var btn = pendingBtn;
-    pendingModel = null; pendingBtn = null;
-    if (!modelId || !btn) return;
+    document.getElementById("buySubmit").addEventListener("click", function () {
+      var email = buyEmail.value.trim();
+      var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+      if (!isEmail) { buyEmail.style.outline = "2px solid #b42318"; buyEmail.focus(); return; }
+      buyEmail.style.outline = "";
+      buyModal.style.display = "none";
+      var modelId = pendingModel; var btn = pendingBtn;
+      pendingModel = null; pendingBtn = null;
+      if (!modelId || !btn) return;
 
-    btn.textContent = "Открываем оплату…";
-    btn.disabled = true;
+      btn.textContent = "Открываем оплату…";
+      btn.disabled = true;
 
-    fetch(KASSA_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({ action: "create_payment", model_id: modelId, email: email })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (data && data.confirmation_url) {
-          try { localStorage.setItem("excelprice_last_payment", data.payment_id || ""); } catch (e) {}
-          window.location.href = data.confirmation_url;
-        } else {
-          alert("Не удалось создать платёж. Попробуйте ещё раз или напишите в Telegram.");
+      fetch(KASSA_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "create_payment", model_id: modelId, email: email })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.confirmation_url) {
+            try { localStorage.setItem("excelprice_last_payment", data.payment_id || ""); } catch (e) {}
+            window.location.href = data.confirmation_url;
+          } else {
+            alert("Не удалось создать платёж. Попробуйте ещё раз или напишите в Telegram.");
+            btn.textContent = "Купить за 499 ₽";
+            btn.disabled = false;
+          }
+        })
+        .catch(function () {
+          alert("Ошибка связи с платёжным сервисом. Попробуйте ещё раз.");
           btn.textContent = "Купить за 499 ₽";
           btn.disabled = false;
-        }
-      })
-      .catch(function () {
-        alert("Ошибка связи с платёжным сервисом. Попробуйте ещё раз.");
-        btn.textContent = "Купить за 499 ₽";
-        btn.disabled = false;
-      });
-  });
+        });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initBuy);
+  } else {
+    initBuy();
+  }
 </script>
 
 <!-- Модальное окно: запрос email перед оплатой -->
