@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Оплата — ExcelPrice</title>
+<meta name="robots" content="noindex">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1f2a37;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  header { background: #2f5597; color: #fff; padding: 20px 0; text-align: center; }
+  header a { color: #fff; font-weight: 600; text-decoration: none; font-size: 14px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+  main { padding: 40px 0 56px; }
+  .card { background: #fff; border: 1px solid #d7dee8; border-radius: 14px; padding: 28px; text-align: center; box-shadow: 0 4px 16px rgba(31,42,55,.08); }
+  h1 { font-size: 24px; margin-bottom: 12px; }
+  h1.ok { color: #2a7f77; }
+  h1.bad { color: #b42318; }
+  p { margin-bottom: 12px; color: #667085; }
+  .btn {
+    display: inline-block; background: #2a7f77; color: #fff;
+    padding: 14px 30px; border-radius: 10px; text-decoration: none;
+    font-weight: 700; font-size: 16px; margin-top: 8px;
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .spinner {
+    border: 4px solid #eaf1fb; border-top-color: #2f5597;
+    border-radius: 50%; width: 44px; height: 44px;
+    margin: 10px auto 16px; animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .muted { color: #98a2b3; font-size: 13px; margin-top: 14px; }
+  footer { background: #1f2a37; color: #cfd6df; padding: 20px 0; font-size: 13px; text-align: center; }
+  footer a { color: #9db4c8; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap"><a href="index.html">← ExcelPrice</a> · Подтверждение оплаты</div>
+</header>
+
+<main class="wrap">
+  <div class="card" id="cardOk" style="display:none">
+    <h1 class="ok">Спасибо! Оплата прошла</h1>
+    <p>Ваш файл готов: <b id="modelName"></b> Нажмите кнопку, чтобы скачать прайс-лист.</p>
+    <a class="btn" id="downloadBtn" href="javascript:void(0)" download>Скачать файл (.xlsx)</a>
+    <p class="muted">Ссылка действует 30 дней. Если скачивание не началось — напишите нам в <a href="https://t.me/Excelprice" target="_blank" rel="noopener">Telegram</a> или <a href="https://wa.me/79000004469" target="_blank" rel="noopener">WhatsApp</a>.</p>
+  </div>
+
+  <div class="card" id="cardWait" style="display:none">
+    <div class="spinner"></div>
+    <h1>Проверяем оплату…</h1>
+    <p>Пожалуйста, подождите несколько секунд. Обновим страницу автоматически.</p>
+  </div>
+
+  <div class="card" id="cardBad" style="display:none">
+    <h1 class="bad">Оплата не найдена</h1>
+    <p>Мы не смогли подтвердить оплату. Если вы только что произвели платёж — подождите минуту и обновите страницу. Если оплата всё же прошла, напишите нам в мессенджер, и мы вышлем файл.</p>
+    <a class="btn" style="background:#2f5597" href="https://wa.me/79000004469" target="_blank" rel="noopener">Написать в WhatsApp</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 ExcelPrice. Все права защищены. · <a href="index.html">На главную</a> · <a href="oferta.html">Оферта</a></div>
+</footer>
+
+<script>
+  // ==== URL веб-приложения Apps Script. ПОКА ПЛЕЙСХОЛДЕР — вставить реальный ====
+  var KASSA_SCRIPT_URL = "https://script.google.com/macros/s/ВАШ_WEBAPP_ID/exec";
+  var scriptStatus = "pending"; // pending | ok | bad
+
+  function show(id) {
+    ["cardOk","cardWait","cardBad"].forEach(function(c){document.getElementById(c).style.display = (c===id)?"block":"none";});
+  }
+
+  function getPaymentId_() {
+    // Приоритет: URL-параметр payment_id, затем сохранённый в localStorage
+    var q = new URLSearchParams(window.location.search);
+    var fromUrl = q.get("payment_id");
+    if (fromUrl) return fromUrl;
+    try {
+      var saved = localStorage.getItem("excelprice_last_payment");
+      if (saved) return saved;
+    } catch (e) {}
+    return "";
+  }
+
+  function check() {
+    var pid = getPaymentId_();
+    if (!pid) {
+      show("cardBad");
+      return;
+    }
+    show("cardWait");
+    // 1) проверяем оплату
+    fetch(KASSA_SCRIPT_URL + "?p=token&payment_id=" + encodeURIComponent(pid))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (!(data && data.model)) { show("cardBad"); return; }
+        // 2) получаем файл (base64)
+        return fetch(KASSA_SCRIPT_URL + "?p=download&payment_id=" + encodeURIComponent(pid))
+          .then(function(r){ return r.json(); })
+          .then(function(file){
+            if (file && file.file) {
+              var anchor = document.getElementById("downloadBtn");
+              anchor.href = makeBlobUrl_(file.file, file.mime);
+              anchor.download = file.name || "ExcelPrice-prajs.xlsx";
+              document.getElementById("modelName").textContent = data.name;
+            } else {
+              // файл не залит в скрипт — показываем кнопку-ссылку на Telegram
+              document.getElementById("downloadBtn").textContent = "Скачать / получить файл";
+              document.getElementById("downloadBtn").href = "https://t.me/Excelprice";
+              document.getElementById("downloadBtn").setAttribute("target","_blank");
+              document.getElementById("modelName").textContent = data.name;
+            }
+            show("cardOk");
+          });
+      })
+      .catch(function(){
+        show("cardWait");
+        setTimeout(function(){ location.reload(); }, 5000);
+      });
+  }
+
+  function makeBlobUrl_(b64, mime) {
+    var bytes = atob(b64);
+    var arr = new Uint8Array(bytes.length);
+    for (var i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+    var blob = new Blob([arr], { type: mime || "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    return URL.createObjectURL(blob);
+  }
+
+  window.addEventListener("DOMContentLoaded", check);
+</script>
+</body>
+</html>
