@@ -184,6 +184,35 @@
   .stat .n { font-size: 30px; font-weight: 800; color: var(--accent); }
   .stat .l { font-size: 13px; color: var(--muted); }
 
+/* Catalog (ready presets) */
+  .catalog { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .product-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+    display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 6px rgba(31,42,55,.06);
+  }
+  .product-card .p-head { padding: 20px 22px 0; }
+  .product-card .p-tag {
+    display: inline-block; background: var(--card); color: var(--band);
+    font-size: 12px; font-weight: 700; border-radius: 12px; padding: 3px 10px; margin-bottom: 12px;
+  }
+  .product-card .p-tag.ready { background: var(--band); color: var(--white); }
+  .product-card h3 { font-size: 19px; margin-bottom: 6px; }
+  .product-card .p-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .product-card .p-body { padding: 0 22px; flex: 1 1 auto; }
+  .product-card .p-meta { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 12px; }
+  .product-card .p-meta .m { font-size: 13px; color: var(--muted); }
+  .product-card .p-meta .m b { display: block; font-size: 18px; color: var(--accent); }
+  .product-card .p-list { list-style: none; margin-bottom: 14px; }
+  .product-card .p-list li { padding: 4px 0 4px 22px; position: relative; font-size: 14px; }
+  .product-card .p-list li:before { content: "✓"; position: absolute; left: 0; color: var(--band); font-weight: 700; }
+  .product-card .p-foot { padding: 16px 22px 22px; border-top: 1px solid var(--border); background: var(--bg); }
+  .product-card .p-foot .price { font-size: 26px; font-weight: 800; color: var(--ink); }
+  .product-card .p-foot .price small { font-size: 14px; font-weight: 400; color: var(--muted); }
+  .product-card .p-foot .actions { display: flex; gap: 10px; margin-top: 12px; }
+  .product-card .p-foot .actions .btn { flex: 1 1 auto; white-space: nowrap; padding: 12px 14px; font-size: 15px; }
+  .product-card.builder { border-style: dashed; background: var(--bg); }
+  .product-card.builder .p-foot { background: var(--white); }
+
   /* Pricing */
   .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
   .price-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 26px; }
@@ -282,6 +311,7 @@
     <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"><img src="logo-muscle-car.jpg" alt="">Excel<span>Price</span></a>
     <nav class="nav-menu" id="navMenu">
       <a href="#services">Услуги</a>
+      <a href="#catalog">Готовые прайсы</a>
       <a href="#process">Как работаю</a>
       <a href="#pricing">Цены</a>
       <a href="#contacts" class="cta">Связаться</a>
@@ -381,6 +411,87 @@
         <div class="stat"><div class="n">84</div><div class="l">позиции</div></div>
         <div class="stat"><div class="n">7</div><div class="l">категорий</div></div>
         <div class="stat"><div class="n">54</div><div class="l">с фиксированной ценой</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="catalog">
+  <div class="wrap">
+    <h2>Готовые прайсы</h2>
+    <p class="sub">Уже собранные таблицы по популярным моделям — такие можно купить сразу, без ожидания. Нужна другая модель? Оформляете заявку — соберу под ваше авто.</p>
+    <div class="catalog">
+      <div class="product-card">
+        <div class="p-head">
+          <span class="p-tag ready">Готов к выдаче</span>
+          <h3>Kia Rio</h3>
+          <div class="p-sub">2019, 1.4 Comfort (G4LC)</div>
+        </div>
+        <div class="p-body">
+          <div class="p-meta">
+            <div class="m"><b>84</b>позиции</div>
+            <div class="m"><b>7</b>категорий</div>
+          </div>
+          <ul class="p-list">
+            <li>Цены со всего интернета по каждой позиции</li>
+            <li>Лучшая цена по России + ссылки (Avito, Дром)</li>
+            <li>Сводка по категориям и дашборд</li>
+          </ul>
+        </div>
+        <div class="p-foot">
+          <div class="price">от 1 500 ₽</div>
+          <div class="actions">
+            <a class="btn btn-primary btn-plan" href="#order" data-plan="Стандарт">Заказать</a>
+          </div>
+          <p class="note" style="margin-top:10px;font-size:13px">Посмотреть пример можно бесплатно: <a href="buy-zapchasti-kia-rio-2019-v2.xlsx" download>скачать Kia (Excel)</a></p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="p-head">
+          <span class="p-tag ready">Готов к выдаче</span>
+          <h3>Mercedes E210</h3>
+          <div class="p-sub">1996, E-Class (W210)</div>
+        </div>
+        <div class="p-body">
+          <div class="p-meta">
+            <div class="m"><b>93</b>позиции</div>
+            <div class="m"><b>7</b>категорий</div>
+          </div>
+          <ul class="p-list">
+            <li>Полный ассортимент бу-запчастей под российский рынок</li>
+            <li>Мин/макс/средняя цена и источники</li>
+            <li>Готов к продаже под разборку</li>
+          </ul>
+        </div>
+        <div class="p-foot">
+          <div class="price">от 1 500 ₽</div>
+          <div class="actions">
+            <a class="btn btn-primary btn-plan" href="#order" data-plan="Стандарт">Заказать</a>
+          </div>
+        </div>
+      </div>
+      <div class="product-card builder">
+        <div class="p-head">
+          <span class="p-tag">Соберём</span>
+          <h3>Ваша модель</h3>
+          <div class="p-sub">Любое авто</div>
+        </div>
+        <div class="p-body">
+          <div class="p-meta">
+            <div class="m"><b>под ключ</b>прайс под ваш запрос</div>
+          </div>
+          <ul class="p-list">
+            <li>Марка, модель, год и литраж — остальное соберу сам</li>
+            <li>Срок: от 1 дня</li>
+            <li>До 2 итераций правок бесплатно</li>
+          </ul>
+        </div>
+        <div class="p-foot">
+          <div class="price">по запросу</div>
+          <div class="actions">
+            <a class="btn btn-outline" href="#order">Оставить заявку</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
