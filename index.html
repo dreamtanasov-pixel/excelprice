@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2f5597">
 <title>ExcelPrice — цена запчастей для автовладельцев и авторазборок</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="description" content="Узнайте реальную цену бу-запчастей на ваше авто: для частных владельцев — где дешевле всего, для авторазборок и магазинов — готовые Excel-прайсы с категориями, артикулами и диапазонами цен. Работаем по всей России.">
@@ -62,21 +63,29 @@
     --white: #fff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--bg);
     color: var(--ink);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
   }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  img { max-width: 100%; height: auto; }
+  a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 
-/* Buy modal */
+  /* Buy modal */
   .buy-modal {
     position: fixed; inset: 0; z-index: 100;
-    background: rgba(31,42,55,.5);
+    background: rgba(31,42,55,.55);
     display: flex; align-items: center; justify-content: center;
     padding: 20px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
   .buy-modal-box {
     background: var(--white); border-radius: 14px; padding: 26px;
@@ -134,9 +143,9 @@
       padding: 8px 14px 14px;
     }
     .nav-menu.open { display: flex; }
-    .nav-menu a { padding: 12px 8px; border-bottom: 1px solid var(--border); font-size: 16px; }
+    .nav-menu a { padding: 14px 8px; border-bottom: 1px solid var(--border); font-size: 16px; }
     .nav-menu a:last-child { border-bottom: none; }
-    .nav-menu .cta { display: block; text-align: center; margin-top: 10px; padding: 13px 22px; }
+    .nav-menu .cta { display: block; text-align: center; margin-top: 10px; padding: 14px 22px; }
   }
 
   /* Hero */
@@ -152,11 +161,16 @@
   .hero .row { display: flex; gap: 16px; flex-wrap: wrap; }
   .btn {
     display: inline-block; text-decoration: none; font-weight: 600;
-    padding: 14px 28px; border-radius: 10px; font-size: 16px;
+    padding: 14px 28px; border-radius: 12px; font-size: 16px;
+    min-height: 48px; line-height: 1.2;
+    cursor: pointer; border: none; text-align: center;
+    transition: transform .12s ease, box-shadow .12s ease, background .15s ease;
+    -webkit-user-select: none; user-select: none;
   }
-  .btn-primary { background: var(--accent); color: var(--white); }
-  .btn-primary:hover { background: var(--band); }
-  .btn-outline { border: 2px solid var(--accent); color: var(--accent); }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: var(--accent); color: var(--white); box-shadow: 0 2px 8px rgba(47,85,151,.18); }
+  .btn-primary:hover { background: var(--band); box-shadow: 0 4px 14px rgba(47,85,151,.24); }
+  .btn-outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
   .btn-outline:hover { background: var(--accent-soft); }
   .hero .note { margin-top: 14px; font-size: 14px; color: var(--muted); }
 
@@ -283,7 +297,7 @@
   .form-card label { display: block; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
   .form-card input, .form-card select {
     width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 9px;
-    font-size: 15px; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--white);
+    font-size: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: var(--ink); background: var(--white);
   }
   .form-card input:focus, .form-card select:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
   .form-card .btn { margin-top: 8px; }
@@ -336,6 +350,29 @@
     .logo img { height: 38px; }
     .stat .n { font-size: 24px; }
   }
+
+  /* iOS safe area + мобильные детали */
+  @supports (padding: max(0px)) {
+    .wrap { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+    .buy-modal-box { padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  }
+  @media (max-width: 640px) {
+    .catalog { grid-template-columns: 1fr; }
+    .payment-maker { border-radius: 16px; }
+  }
+  @media (min-width: 641px) and (max-width: 1000px) {
+    .catalog { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Популярные модели (SEO-страницы) */
+  .model-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .model-links a {
+    display: inline-block; padding: 9px 16px; border: 1px solid var(--border);
+    border-radius: 20px; background: var(--white); color: var(--accent);
+    font-weight: 600; font-size: 14px; text-decoration: none; min-height: 40px; line-height: 1.4;
+    transition: border-color .15s, background .15s;
+  }
+  .model-links a:hover { border-color: var(--accent); background: var(--accent-soft); }
 </style>
 </head>
 <body>
@@ -455,6 +492,13 @@
     <h2>Готовые прайсы</h2>
     <p class="sub">Уже собранные таблицы по популярным моделям — такие можно купить сразу, без ожидания. Нужна другая модель? Оформляете заявку — соберу под ваше авто.</p>
     <p class="sub" style="color:var(--band);font-weight:600;background:var(--card);border:1px solid var(--band);border-radius:10px;padding:12px 14px;max-width:720px">Важно: цены найдены и указаны не на каждую запчасть. Часть позиций помечена «—» — по ним объявления с открытой ценой не найдены или разборки не публикуют цену, стоимость уточняется индивидуально. Учитывайте это перед покупкой.</p>
+    <div class="model-links">
+      <a href="kia-rio.html">Kia Rio</a>
+      <a href="toyota-camry.html">Toyota Camry</a>
+      <a href="lada-vesta.html">Lada Vesta</a>
+      <a href="hyundai-solaris.html">Hyundai Solaris</a>
+      <a href="lada-granta.html">Lada Granta</a>
+    </div>
     <div class="catalog">
       <div class="product-card" data-model="kia-rio">
         <div class="p-head">
