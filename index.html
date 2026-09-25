@@ -69,6 +69,29 @@
   }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 
+/* Buy modal */
+  .buy-modal {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(31,42,55,.5);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .buy-modal-box {
+    background: var(--white); border-radius: 14px; padding: 26px;
+    max-width: 420px; width: 100%; box-shadow: 0 14px 40px rgba(0,0,0,.3);
+  }
+  .buy-modal-box h3 { margin-bottom: 4px; color: var(--accent); }
+  .buy-modal-model { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+  .buy-modal-box label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .buy-modal-box input {
+    width: 100%; padding: 11px 13px; border: 1px solid var(--border);
+    border-radius: 9px; font-size: 15px; margin-bottom: 8px;
+  }
+  .buy-modal-box input:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+  .buy-modal-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .buy-modal-actions { display: flex; gap: 10px; }
+  .buy-modal-actions .btn { flex: 1 1 auto; text-align: center; }
+
 /* Header */
   header {
     background: var(--white);
@@ -978,9 +1001,14 @@ document.addEventListener("click", function (e) {
     history.replaceState(null, "", "#" + id);
   });
 
-  // ==== ПОКУПКА ГОТОВОГО ПРАЙСА ЧЕРЕЗ ЮKASSA ====
-  // URL веб-приложения Apps Script. ПОКА ПЛЕЙСХОЛДЕР — вставьте реальный после деплоя.
+// ==== ПОКУПКА ГОТОВОГО ПРАЙСА ЧЕРЕЗ ЮKASSA ====
   var KASSA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOEAPwIW-NuyhIVMBmWzyHBTrDqi2zE_bLiJ66_USlivZx1CxGVM1fumJRlFMxYpPeEg/exec";
+  var pendingModel = null;
+  var pendingBtn = null;
+
+  var buyModal = document.getElementById("buyModal");
+  var buyEmail = document.getElementById("buyEmail");
+  var buyModelName = document.getElementById("buyModalModel");
 
   document.addEventListener("click", function (e) {
     var btn = e.target.closest(".btn-buy");
@@ -990,18 +1018,43 @@ document.addEventListener("click", function (e) {
     if (!card) return;
     var modelId = card.getAttribute("data-model");
     if (!modelId) return;
+    pendingModel = modelId;
+    pendingBtn = btn;
+    buyModelName.textContent = card.querySelector("h3") ? card.querySelector("h3").textContent : "";
+    buyEmail.value = "";
+    buyEmail.focus();
+    buyModal.style.display = "flex";
+  });
+
+  document.getElementById("buyCancel").addEventListener("click", function () {
+    buyModal.style.display = "none";
+    pendingModel = null; pendingBtn = null;
+  });
+
+  buyModal.addEventListener("click", function (e) {
+    if (e.target === buyModal) { buyModal.style.display = "none"; pendingModel = null; pendingBtn = null; }
+  });
+
+  document.getElementById("buySubmit").addEventListener("click", function () {
+    var email = buyEmail.value.trim();
+    var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    if (!isEmail) { buyEmail.style.outline = "2px solid #b42318"; buyEmail.focus(); return; }
+    buyEmail.style.outline = "";
+    buyModal.style.display = "none";
+    var modelId = pendingModel; var btn = pendingBtn;
+    pendingModel = null; pendingBtn = null;
+    if (!modelId || !btn) return;
 
     btn.textContent = "Открываем оплату…";
     btn.disabled = true;
 
     fetch(KASSA_SCRIPT_URL, {
       method: "POST",
-      body: JSON.stringify({ action: "create_payment", model_id: modelId })
+      body: JSON.stringify({ action: "create_payment", model_id: modelId, email: email })
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (data && data.confirmation_url) {
-          // Запоминаем payment_id, чтобы страница успеха могла его достать
           try { localStorage.setItem("excelprice_last_payment", data.payment_id || ""); } catch (e) {}
           window.location.href = data.confirmation_url;
         } else {
@@ -1017,6 +1070,22 @@ document.addEventListener("click", function (e) {
       });
   });
 </script>
+
+<!-- Модальное окно: запрос email перед оплатой -->
+<div class="buy-modal" id="buyModal" style="display:none">
+  <div class="buy-modal-box">
+    <h3>Купить прайс за 499 ₽</h3>
+    <p class="buy-modal-model" id="buyModalModel">Выбранная модель</p>
+    <label for="buyEmail">Ваш email для получения файла</label>
+    <input type="email" id="buyEmail" placeholder="you@example.com" autocomplete="email" inputmode="email">
+    <p class="buy-modal-note">После оплаты файл пришлём на email и покажем на странице.</p>
+    <div class="buy-modal-actions">
+      <button class="btn btn-outline" id="buyCancel">Отмена</button>
+      <button class="btn btn-primary" id="buySubmit">Перейти к оплате</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 
