@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://xn----8sbnaa0acj2bkfi.xn--p1ai/sitemap.xml
+Sitemap: https://excelprice.ru/sitemap.xml
