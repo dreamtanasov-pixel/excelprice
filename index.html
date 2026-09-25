@@ -69,23 +69,50 @@
   }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 
-  /* Header */
+/* Header */
   header {
     background: var(--white);
     border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 10;
+    position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 2px 12px rgba(31,42,55,.06);
   }
-  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-.logo { font-size: 24px; font-weight: 800; color: var(--accent); letter-spacing: 0; display: flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer; white-space: nowrap; }
-  .logo img { height: 46px; width: auto; }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .logo { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: 0; display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; white-space: nowrap; }
+  .logo img { height: 42px; width: auto; }
   .logo span { color: var(--band); }
-  .nav a { text-decoration: none; color: var(--ink); font-weight: 600; margin-left: 28px; font-size: 15px; }
-  .nav a:hover { color: var(--accent); }
-  .nav .cta {
+  .nav-menu { display: flex; align-items: center; gap: 30px; }
+  .nav-menu a { text-decoration: none; color: var(--ink); font-weight: 600; font-size: 15px; transition: color .15s; }
+  .nav-menu a:hover { color: var(--accent); }
+  .nav-menu .cta {
     background: var(--accent); color: var(--white) !important;
-    padding: 9px 18px; border-radius: 8px; font-weight: 600;
+    padding: 10px 22px; border-radius: 8px; font-weight: 700;
   }
-  .nav .cta:hover { background: var(--band); }
+  .nav-menu .cta:hover { background: var(--band); }
+  .nav-toggle {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 42px; height: 42px; padding: 10px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--white); cursor: pointer;
+  }
+  .nav-toggle span { display: block; height: 2px; width: 100%; background: var(--ink); border-radius: 2px; transition: all .2s; }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 800px) {
+    .nav { position: relative; }
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      box-shadow: 0 12px 24px rgba(31,42,55,.1);
+      padding: 8px 14px 14px;
+    }
+    .nav-menu.open { display: flex; }
+    .nav-menu a { padding: 12px 8px; border-bottom: 1px solid var(--border); font-size: 16px; }
+    .nav-menu a:last-child { border-bottom: none; }
+    .nav-menu .cta { display: block; text-align: center; margin-top: 10px; padding: 13px 22px; }
+  }
 
   /* Hero */
   .hero { padding: 72px 0 64px; }
@@ -209,11 +236,9 @@
 @media (max-width: 640px) {
     .wrap { padding: 0 14px; }
     header { position: sticky; }
-    .nav { height: auto; flex-wrap: wrap; gap: 8px; padding: 10px 0; }
-    .logo { margin-left: 6px; }
-    .nav > div:last-child { display: flex; flex-wrap: wrap; gap: 6px 12px; width: 100%; margin-left: 6px; }
-    .nav a { margin-left: 0; font-size: 14px; }
-    .nav .cta { margin-left: 0; padding: 8px 14px; }
+    .nav { height: 62px; flex-wrap: nowrap; gap: 0; padding: 0; }
+    .logo { margin-left: 0; font-size: 19px; }
+    .logo img { height: 36px; }
     .hero { padding: 40px 0 32px; }
     .hero h1 { font-size: 27px; }
     .hero p.lead { font-size: 16px; }
@@ -252,12 +277,15 @@
 <header>
   <div class="wrap nav">
     <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"><img src="logo-muscle-car.jpg" alt="">Excel<span>Price</span></a>
-    <div>
+    <nav class="nav-menu" id="navMenu">
       <a href="#services">Услуги</a>
       <a href="#process">Как работаю</a>
       <a href="#pricing">Цены</a>
       <a href="#contacts" class="cta">Связаться</a>
-    </div>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -572,13 +600,30 @@
     });
   });
 
-  document.querySelectorAll(".btn-plan").forEach(function (btn) {
+document.querySelectorAll(".btn-plan").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       var plan = btn.getAttribute("data-plan");
       var sel = document.getElementById("f-plan");
       if (sel) sel.value = plan;
     });
   });
+
+  var navToggle = document.getElementById("navToggle");
+  var navMenu = document.getElementById("navMenu");
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", function () {
+      var isOpen = navMenu.classList.toggle("open");
+      navToggle.classList.toggle("open", isOpen);
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    navMenu.addEventListener("click", function (e) {
+      if (e.target.closest("a")) {
+        navMenu.classList.remove("open");
+        navToggle.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
 
   document.addEventListener("click", function (e) {
     var link = e.target.closest('a[href^="#"]');
