@@ -76,7 +76,7 @@
     position: sticky; top: 0; z-index: 10;
   }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-.logo { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: 0; display: flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer; }
+.logo { font-size: 24px; font-weight: 800; color: var(--accent); letter-spacing: 0; display: flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer; white-space: nowrap; }
   .logo img { height: 46px; width: auto; }
   .logo span { color: var(--band); }
   .nav a { text-decoration: none; color: var(--ink); font-weight: 600; margin-left: 28px; font-size: 15px; }
@@ -206,13 +206,14 @@
   footer .rights { font-size: 13px; color: #8fa3b6; }
   footer .disclaimer { font-size: 12px; color: #71879c; line-height: 1.5; max-width: 760px; }
 
-  @media (max-width: 640px) {
+@media (max-width: 640px) {
     .wrap { padding: 0 14px; }
+    html, body { overflow-x: hidden; }
     header { position: sticky; }
-    .nav { height: auto; flex-wrap: wrap; gap: 8px; padding: 10px 0; }
-    .nav > div:last-child { display: flex; flex-wrap: wrap; gap: 6px 12px; width: 100%; }
+    .nav { height: auto; flex-wrap: wrap; gap: 4px; padding: 10px 0; justify-content: flex-start; align-items: center; }
+    .nav > div:last-child { display: flex; flex-wrap: wrap; gap: 6px 14px; width: 100%; justify-content: flex-start; }
     .nav a { margin-left: 0; font-size: 14px; }
-    .nav .cta { margin-left: 0; padding: 8px 14px; }
+    .nav .cta { margin-left: 0; padding: 8px 14px; white-space: nowrap; }
     .hero { padding: 40px 0 32px; }
     .hero h1 { font-size: 27px; }
     .hero p.lead { font-size: 16px; }
