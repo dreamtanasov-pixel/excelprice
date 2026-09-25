@@ -13,8 +13,8 @@
  */
 
 // ===== 1. РЕКВИЗИТЫ (ЗАМЕНИТЕ) =====
-var SHOP_ID = 1476352;        // из «Настройки -> Магазин» (число)
-var SECRET_KEY = "test_OfBi_rHUCbkzEE01bSfHWhaw2z3kzgch_sDDRtird3E";  // тестовый ключ
+var SHOP_ID = 1475255;        // из «Настройки -> Магазин» (число)
+var SECRET_KEY = "live_NBHoZRX6W-3mM9SNWYx9_0D4FM7FCUKIeCV5aLo_2RQ";  // боевой ключ
 var RETURN_URL = "https://excelprice.ru/kassa-success.html"; // ЮKassa сама добавит ?payment_id=
 
 // ===== 2. ТОВАР =====

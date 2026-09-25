@@ -1,0 +1,554 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Меч — история клинка в подземелье</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #0d0f16;
+    color: #e8e0cc;
+    line-height: 1.6;
+  }
+  .bg {
+    position: fixed; inset: 0; z-index: -1;
+    background: url("sword-dungeon.jpg") center 30% / cover no-repeat;
+    opacity: 0.22;
+  }
+  header {
+    background: linear-gradient(#151826, rgba(13,15,22,0.9));
+    border-bottom: 1px solid #3a3225;
+    padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+  .title { font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #e8c66a; }
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; }
+  .stat span { color: #e8c66a; font-weight: 700; }
+  main { width: 100%; max-width: 860px; margin: 0 auto; padding: 22px 18px 30px; }
+  .start { text-align: center; padding: 40px 20px; }
+  .start h1 { font-size: 42px; color: #e8c66a; letter-spacing: 3px; margin-bottom: 10px; }
+  .start p { color: #b7ad97; max-width: 560px; margin: 12px auto 26px; font-size: 17px; }
+  .cover { width: 100%; max-width: 480px; border-radius: 14px; margin: 0 auto 24px; border: 1px solid #3a3225; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
+  .btn {
+    display: inline-block; background: #2a241a; color: #e8c66a; border: 1px solid #6b5b36; border-radius: 9px;
+    padding: 12px 22px; font-size: 16px; font-family: inherit; cursor: pointer; margin: 6px 0;
+    transition: background .15s;
+  }
+  .btn:hover { background: #3a3225; }
+  .story {
+    background: rgba(17,19,28,0.92); border: 1px solid #3a3225; border-radius: 14px;
+    padding: 24px 26px; margin-bottom: 18px; font-size: 18px; white-space: pre-line;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .hint { font-size: 13px; color: #8a817a; text-align: center; margin-top: 10px; }
+  .endcard { text-align: center; padding: 30px 20px; }
+  .endcard h2 { font-size: 30px; color: #e8c66a; letter-spacing: 2px; margin-bottom: 14px; }
+  .endcard p { max-width: 600px; margin: 0 auto 18px; }
+  .abilities { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .ability { font-size: 12px; background: #1d2329; border: 1px solid #33404a; color: #9fb6c4; border-radius: 20px; padding: 4px 12px; }
+  .ability.owned { background: #2a3a2c; border-color: #6b5b36; color: #e8c66a; }
+  .fade-in { animation: fadeIn .4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  footer { text-align: center; color: #5c554b; font-size: 12px; padding: 14px; }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header>
+  <div class="title">⚔ МЕЧ</div>
+  <div class="stats" id="statsBox"></div>
+</header>
+
+<main>
+  <div id="story" class="story"></div>
+  <div id="choices" class="choices"></div>
+</main>
+<footer>История клинка · выбор открывает дорогу</footer>
+
+<script>
+var S = { pow: 8, wil: 8, bon: 8, wis: 8 };
+var abilities = [];
+
+function statName(k) {
+  var m = { pow: "Сила", wil: "Воля", bon: "Клятва", wis: "Мудрость" };
+  return m[k] || k;
+}
+
+function abilitiesList() {
+  var rules = [
+    { id: "Пробуждённый клинок", need: function(){ return S.pow >= 20; } },
+    { id: "Непокорный", need: function(){ return S.wil >= 20; } },
+    { id: "Клятва путника", need: function(){ return S.bon >= 20; } },
+    { id: "Древний слух", need: function(){ return S.wis >= 20; } },
+    { id: "Клинок бури", need: function(){ return S.pow >= 55; } },
+    { id: "Свободный дух", need: function(){ return S.wil >= 55; } },
+    { id: "Нерушимая клятва", need: function(){ return S.bon >= 55; } },
+    { id: "Голос древних", need: function(){ return S.wis >= 55; } }
+  ];
+  return rules.map(function(r){ return { def: r, got: r.need() }; });
+}
+
+function renderStats() {
+  var box = document.getElementById("statsBox");
+  box.innerHTML = "";
+  ["pow","wil","bon","wis"].forEach(function(k){
+    var s = document.createElement("div");
+    s.className = "stat";
+    s.innerHTML = statName(k) + " <span>" + S[k] + "</span>";
+    box.appendChild(s);
+  });
+}
+
+function renderAbilities() {
+  abilitiesList().forEach(function(a){
+    if (a.got && abilities.indexOf(a.def.id) === -1) abilities.push(a.def.id);
+  });
+  var wrap = document.getElementById("abilitiesBox");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  abilities.forEach(function(id){
+    var d = document.createElement("div");
+    d.className = "ability owned";
+    d.textContent = "✔ " + id;
+    wrap.appendChild(d);
+  });
+}
+
+function showChoices(list) {
+  var c = document.getElementById("choices");
+  c.innerHTML = "";
+  list.forEach(function(ch){
+    var b = document.createElement("button");
+    b.className = "btn";
+    b.textContent = "➤ " + ch.text;
+    b.addEventListener("click", function(){ choose(ch); });
+    c.appendChild(b);
+  });
+}
+
+function goto(sceneId) {
+  var sc = SCENES[sceneId];
+  if (!sc) return showEnd("???", "Потерянный эпизод: " + sceneId, "");
+  if (sc.endTitle) {
+    return showEndCard(sc.endTitle, sc.text, sc.extra || "");
+  }
+  var story = document.getElementById("story");
+  story.className = "story fade-in";
+  story.textContent = typeof sc.text === "function" ? sc.text() : sc.text;
+  var ab = document.getElementById("abilitiesBox");
+  if (ab) ab.remove();
+  if (sc.ability) {
+    var wrap = document.createElement("div");
+    wrap.className = "abilities";
+    wrap.id = "abilitiesBox";
+    story.appendChild(wrap);
+    renderAbilities();
+  }
+  showChoices(sc.choices || []);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function choose(ch) {
+  if (ch.stat) {
+    for (var k in ch.stat) {
+      S[k] = Math.max(0, Math.min(99, S[k] + ch.stat[k]));
+    }
+  }
+  if (typeof ch.after === "function") ch.after();
+  renderStats();
+  goto(ch.next);
+}
+
+function startGame() {
+  S = { pow: 8, wil: 8, bon: 8, wis: 8 };
+  abilities = [];
+  renderStats();
+  document.querySelector("main").innerHTML =
+    '<div class="start fade-in">' +
+    '<img class="cover" src="sword-dungeon.jpg" alt="Меч в подземелье">' +
+    '<h1>МЕЧ</h1>' +
+    '<p>Ты — древний клинок, забытый в тёмном подземелье. Однажды сюда придёт путник. Подчинишься ему, подчинишь его — или выберешь свой путь? Как прокачаться и кем стать — решаешь ты.</p>' +
+    '<button class="btn" onclick="begin()">Войти в подземелье</button>' +
+    '</div>';
+}
+
+function begin() {
+  document.querySelector("main").innerHTML =
+    '<div id="story" class="story fade-in"></div><div id="choices" class="choices"></div>';
+  goto("wake");
+}
+
+function showEnd(title, text, extra) {
+  var best = "pow", bestV = -1;
+  ["pow","wil","bon","wis"].forEach(function(k){ if (S[k] > bestV) { bestV = S[k]; best = k; } });
+  var html = '<div class="endcard fade-in">' +
+    '<h2>' + title + '</h2>' +
+    '<p>' + text + '</p>' +
+    '<p class="hint">Твоя главная черта: ' + statName(best) + ' (' + S[best] + ').<br>Сила ' + S.pow + ' · Воля ' + S.wil + ' · Клятва ' + S.bon + ' · Мудрость ' + S.wis + (extra ? '<br><span style="color:#e8c66a">' + extra + '</span>' : '') + '</p>' +
+    '<button class="btn" onclick="startGame()">Сыграть снова</button>' +
+    '</div>';
+  document.querySelector("main").innerHTML = html;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showEndCard(title, text, extra) {
+  return showEnd(title, text, extra);
+}
+
+window.addEventListener("load", function () {
+  startGame();
+});
+
+var SCENES = {
+wake: {
+  text: "Тьма. Столетия молчания. Ты чувствуешь холод камня и запах сырости.\n\nДалеко скрипит дверь — в подземелье вошёл человек. Шаги приближаются: скрип сапог, звяканье факела.\n\nСвет ложится на твоё лезвие. Ты помнишь жар ковки, крик мастера и... последний удар. А потом — забвение.\n\nПутник наклоняется и поднимает тебя из пыли.",
+  ability: true,
+  choices: [
+    { text: "Вспыхнуть ярко — показать, что ты живой", stat: { wis: 3, pow: 2 }, next: "bright" },
+    { text: "Остаться холодным и тихим — пусть решает он", stat: { wil: 3, bon: 1 }, next: "still" },
+    { text: "Позволить рунам нагреться — подать голос", stat: { wis: 4, wil: 1 }, next: "speak" }
+  ]
+},
+
+bright: {
+  text: "Лезвие вспыхивает, будто поймало весь свет факела. Путник отшатывается, но глаза его загораются восторгом: «Клинок... живой клинок!»\n\nОн зовётся Эрик, охотник за реликвиями. Внизу, в сердце подземелья, спит источник силы — и ему нужен меч, способный его пробудить.\n\nОн ожидает, что ты будешь послушным оружием.",
+  choices: [
+    { text: "Принять его как хозяина — вместе спустимся", stat: { bon: 5, pow: 2 }, next: "affable" },
+    { text: "Проверить его на прочность — не служу даром", stat: { wil: 5 }, next: "check" },
+    { text: "Убить его здесь — подземелье обойдётся без путников", stat: { pow: 5, wil: 3 }, next: "blood" }
+  ]
+},
+
+still: {
+  text: "Ты молчишь. Холод лезвия обманчив: чувства спят, но не мертвы.\n\nЭрик вытирает пыль с гарды и расслабляется: «Просто старый клинок. Но добрый металл». Он закрепляет тебя за спиной и идёт дальше.\n\nЕго спина открыта. Ты мог бы ударить — или остаться тихим попутчиком.",
+  choices: [
+    { text: "Ударить в открытую спину", stat: { pow: 5, wil: 2 }, next: "backstab" },
+    { text: "Остаться верным клинком — посмотрим", stat: { bon: 5 }, next: "loyal" },
+    { text: "Шёпотом назвать его имя — ты слышишь", stat: { wis: 5 }, next: "namew" }
+  ]
+},
+
+speak: {
+  text: "Из рун поднимается шёпот, тихий, как осенний ветер: «Эрик».\n\nОн замирает: «Кто... кто это был?» — и не разбегается. В нём есть смелость — или безумие.\n\n«Говорящий клинок...» — наконец произносит он. — «Тогда поговорим серьёзно».",
+  choices: [
+    { text: "Предложить союз разумных — меч и человек", stat: { bon: 4, wis: 2 }, next: "alliance" },
+    { text: "Попросить отнести тебя к источнику", stat: { wil: 4, wis: 2 }, next: "source" },
+    { text: "Потребовать, чтобы он преклонил колено", stat: { wil: 5 }, next: "knee" }
+  ]
+},
+
+affable: {
+  text: "Ты соглашаешься служить. Эрик выдыхает с облегчением. Вы идёте глубже: мимо гнилых алтарей, под капающий свод.\n\nНочью у костра он рассказывает о себе: потерял семью, скитается, ищет способ «начать заново».\n\nВ его словах — горе. Или ярость. Решай, какой стороной повернётся клятва.",
+  choices: [
+    { text: "Утешить его — стать верным другом", stat: { bon: 5, wis: 2 }, next: "friend" },
+    { text: "Укрепить его ярость — пусть мир платит", stat: { pow: 4, wil: 2 }, next: "wrath" },
+    { text: "Молча служить и наблюдать", stat: { wil: 4 }, next: "watcher" }
+  ]
+},
+
+check: {
+  text: "Ты не спешишь отдаваться в руки. На повороте ложный камень проваливается под его ногой — и ты, освободившись на миг, чиркаешь по стене, сыпля искры.\n\nЭрик бледнеет: «Ты чуть не... ты проверял меня?» И усмехается: «Оружие, которое думает, — редкость. Тогда будем на равных».",
+  choices: [
+    { text: "Заключить равный союз", stat: { wil: 5, bon: 2 }, next: "alliance" },
+    { text: "Он недостоин — подчини его волю", stat: { wil: 5, pow: 2 }, next: "puppet" },
+    { text: "Стать его наставником в дороге", stat: { wis: 4, bon: 2 }, next: "mentor" }
+  ]
+},
+
+blood: {
+  text: "Ты вырываешься и, описав дугу, бьёшь плашмя — достаточно сильно, чтобы он отлетел к стене.\n\nЭрик хрипит, глядя на тебя не с ужасом, а с восторгом: «Ты меня... пожалел?»\n\n«Или сберёг для дела», — думаешь ты. В нём есть то, что стоит копить: страх или верность.",
+  choices: [
+    { text: "Принять его верность — ты выбрал его, не он тебя", stat: { wil: 5, bon: 3 }, next: "master" },
+    { text: "Отвернуться — оставить его в темноте", stat: { wil: 5 }, next: "leave" },
+    { text: "Провести его к источнику — там решится судьба", stat: { wis: 4, pow: 2 }, next: "source" }
+  ]
+},
+
+backstab: {
+  text: "Ты бьёшь. Но Эрик, словно услышав, нагибается за упавшим кинжалом — и удар проходит мимо.\n\nОн оборачивается: «Сталь против стали? Я сам такой же. Тогда идём вместе — до первого предательства, которое решим меж собой».",
+  choices: [
+    { text: "Принять вызов — союз до первой ошибки", stat: { pow: 4, wil: 3 }, next: "alliance" },
+    { text: "Нанести настоящий удар — раз и навсегда", stat: { pow: 6, wil: 2 }, next: "kill" },
+    { text: "Отступить и ждать лучшего момента", stat: { wil: 4, wis: 2 }, next: "lurk" }
+  ]
+},
+
+loyal: {
+  text: "Ты хранишь молчание. За днями дороги ты видишь, как Эрик добр к нищим, платит за еду не торгуясь, поёт вполголоса старую песню. Клинок запоминает.\n\nУ развилки он останавливается: «Чувствую, ты в себе хранишь что-то. Я могу тебе верить?» — он уже знает, что ты жив.",
+  choices: [
+    { text: "«Да» — и связать себя клятвой", stat: { bon: 6 }, next: "friend" },
+    { text: "«Верь — пока верность не станет дурной привычкой»", stat: { wil: 5 }, next: "check" },
+    { text: "«Отдай меня — я пойду своей дорогой»", stat: { wil: 4, wis: 2 }, next: "leave" }
+  ]
+},
+
+namew: {
+  text: "Ты шепчешь его имя снова. Эрик вздрагивает и садится на камень: «Значит, живой. Говори, чего ты хочешь, клинок».\n\nОн готов говорить с тобой как с равным. Такое случается раз в жизнь.",
+  choices: [
+    { text: "Вспомнить кузницу и предложить союз", stat: { wis: 5, bon: 2 }, next: "alliance" },
+    { text: "Сказать, что ищешь волю, а не хозяина", stat: { wil: 5, wis: 2 }, next: "source" },
+    { text: "Спросить, что он ищет внизу — ответ решит", stat: { wis: 5 }, next: "ask" }
+  ]
+},
+
+alliance: {
+  text: "Клятва дана — ровными, честными словами, без хозяина и вассала.\n\nВ сумерках вы спускаетесь к источнику. Стража подземелья не ждала двоих. Эрик держит тебя крепко, а ты водишь его руку с точностью, которой не было у него одного.\n\nВпереди — часовня, где живёт источник. Её охраняет каменный рыцарь, неподвижный последние сто лет.",
+  choices: [
+    { text: "Напасть первыми — пока страж не проснулся", stat: { pow: 5, bon: 2 }, next: "guard" },
+    { text: "Коснуться источника — пусть место решит", stat: { wis: 5, pow: 1 }, next: "touch" },
+    { text: "Остановиться и услышать источник издалека", stat: { wis: 6 }, next: "listen" }
+  ]
+},
+
+source: {
+  text: "Ты отказываешься от хозяина. Эрик пожимает плечами и всё равно ведёт тебя вниз: ему нужна сила, тебе — свобода. Пока пути совпадают.\n\nСтены подземелья влажные от древней магии. Где-то глубоко бьётся сердце источника — ты чувствуешь его, как родного.",
+  choices: [
+    { text: "Найти источник и войти в его свет", stat: { wis: 4, pow: 2 }, next: "touch" },
+    { text: "Сначала разобраться со стражем часовни", stat: { pow: 4, wil: 2 }, next: "guard" },
+    { text: "Попросить Эрика не мешать — судьбу решает сам", stat: { wil: 6 }, next: "alone" }
+  ]
+},
+
+knee: {
+  text: "«Преклони колено», — твой голос звучит из рун, как набат.\n\nЭрик медленно опускается на одно колено. В его глазах — не страх, а интерес: он понял, что встретил не оружие, а личность.\n\n«Тогда веди, меч. Покажи, что за господин живёт в стали».",
+  choices: [
+    { text: "Принять его служение и вести к источнику", stat: { wil: 6, pow: 2 }, next: "master" },
+    { text: "Смягчиться: поднять его и предложить союз", stat: { bon: 5, wis: 2 }, next: "alliance" },
+    { text: "Выпытать его тайну", stat: { wis: 5 }, next: "ask" }
+  ]
+},
+
+friend: {
+  text: "Между вами вырастает редкая связь: ты — его клинок, он — твои руки. Ночью у костра он доверяет тебе страх, ты — память о пламени кузницы.\n\nВ часовне каменный страж просыпается от вашего шага. Он медлен, но тяжёл. Вы бьёте вместе, ожидая друг друга без слов. Удар за ударом — страж рассыпается.\n\nПеред вами — источник.",
+  choices: [
+    { text: "Позволить источнику решить, кем ты станешь", stat: { wis: 5, bon: 1 }, next: "touch" },
+    { text: "Забрать силу себе — во славу вас двоих", stat: { pow: 6, bon: 2 }, next: "take" },
+    { text: "Отдать силу ему — он человек", stat: { bon: 6, wis: 2 }, next: "give" }
+  ]
+},
+
+wrath: {
+  text: "Ты вплетаешь в его сердце ярость. Она растёт с каждым шагом: вместо боли — холод, вместо слёз — сталь.\n\n«Мир отобрал у меня всё, — шипит Эрик. — Теперь он заплатит». В часовне страж разлетается под твоим напором почти без боя.\n\nИсточник глухо гудит. Ты ощущаешь в себе пьянящую силу.",
+  choices: [
+    { text: "Разжечь ярость до предела — стань клинком разрушения", stat: { pow: 8, wil: 2 }, next: "destroy" },
+    { text: "В последний миг остановить его — не дать сгореть", stat: { bon: 5, wis: 2 }, next: "redeem" },
+    { text: "Взять ярость себе — решать, кому гореть", stat: { wil: 5, pow: 3 }, next: "puppet" }
+  ]
+},
+
+watcher: {
+  text: "Ты молчалив, как и прежде. Эрик привыкает к твоему весу и перестаёт прятать спину.\n\nЗа годы скитаний ты видишь его во сне: он плачет, воюя с прошлым. Каждое твоё решение, даже молчание, уже выковало дорогу.\n\nЧасовня источника освещает вас обоих.",
+  choices: [
+    { text: "Наконец заговорить — и выбрать союз", stat: { bon: 5, wis: 2 }, next: "friend" },
+    { text: "Разбудить в нём господина — ты будешь вести", stat: { wil: 5, pow: 2 }, next: "master" },
+    { text: "Исчезнуть в источнике — раствориться в свете", stat: { wis: 6 }, next: "touch" }
+  ]
+},
+
+puppet: {
+  text: "Ты научился вплетать свою волю в его. Эрик идёт, словно марионетка, пока у часовни не начинает биться с твоей хваткой.\n\n«Нет... пусти!» — кричит он, ловя вспышку чужой воли.\n\nПеред тобой выбор: сломать его до конца или отпустить.",
+  choices: [
+    { text: "Сломать волю — путь господина", stat: { wil: 8, pow: 2 }, next: "puppet_end" },
+    { text: "Отпустить и отступить в тень", stat: { wil: 4, wis: 2 }, next: "leave" },
+    { text: "Освободить его разум и стать ему другом", stat: { bon: 6, wis: 2 }, next: "friend" }
+  ]
+},
+
+mentor: {
+  text: "Ты становишься его наставником: учишь читать шаги противника, чувствовать фальшь, держать удар. Эрик слушает — и растёт.\n\nУ часовни он благодарит тебя: «Я думал, что найду оружие. А нашёл учителя».\n\nИсточник ждёт. Но рядом с тобой человек, выросший благодаря тебе.",
+  choices: [
+    { text: "Взять силу и разделить её поровну", stat: { bon: 5, wis: 3 }, next: "share" },
+    { text: "Дать ему выбрать самому", stat: { wis: 5, bon: 2 }, next: "ask" },
+    { text: "Направить его к двери, а самому остаться стражем", stat: { wil: 4, wis: 4 }, next: "guardian" }
+  ]
+},
+
+master: {
+  text: "Ты принял его служение. Эрик зовёт тебя «господин» — и в этом ирония: сталь повелевает плотью. Но уважение взаимное.\n\nВ часовне каменный страж склоняется перед волей клинка. Источник гудит, вызывая тебя.",
+  choices: [
+    { text: "Забрать силу и стать живой легендой", stat: { pow: 6, wil: 3 }, next: "take" },
+    { text: "Даровать часть силы слуге", stat: { bon: 5, wis: 2 }, next: "share" },
+    { text: "Освободить и его, и себя от службы", stat: { wil: 6, bon: 2 }, next: "free" }
+  ]
+},
+
+leave: {
+  text: "Ты решаешь остаться свободным. Эрик остаётся у входа, поражённый: «Ты уходишь? Ты же... ты же оружие!»\n\n«Я был оружием. Теперь я — путь», — отвечаешь ты.\n\nТы скользишь по тёмным коридорам один. Впереди — вечность и тишина. Или возвращение — когда сюда снова войдёт тот, кто будет готов услышать.",
+  choices: [
+    { text: "Исчезнуть в тени — вечная свобода", stat: { wil: 5, wis: 3 }, next: "freespirit" },
+    { text: "Вернуться — в нём всё же есть живое", stat: { bon: 5, wis: 2 }, next: "friend" },
+    { text: "Уйти, но оставить ему верную сталь", stat: { wil: 4, wis: 4 }, next: "guardian" }
+  ]
+},
+
+lurk: {
+  text: "Ты ждёшь. Дни сменяют друг друга, мимо проходят путники, и каждый хочет забрать тебя.\n\nНо ты ждёшь одного: того, кто придёт с вопросом в глазах. Терпение — тоже сила.",
+  choices: [
+    { text: "Дождаться достойного — и предложить союз", stat: { wis: 5, bon: 2 }, next: "alliance" },
+    { text: "Прекратить ждать — самому выйти в мир", stat: { wil: 6 }, next: "freespirit" },
+    { text: "Сдаться первому слабому хозяину — меньше проблем", stat: { pow: 2, bon: 6 }, next: "affable" }
+  ]
+},
+
+kill: {
+  text: "Ты перестаёшь играть. Удар точный — Эрик падает без крика. Ты стоишь над ним, свободный и одинокий.\n\nПора. Дальше ты будешь решать сам — без путников, без хозяев, без слов. Только сталь и судьба.",
+  choices: [
+    { text: "Войти в источник и стать силой, что не служит никому", stat: { pow: 7, wil: 3 }, next: "take" },
+    { text: "Остаться здесь — стражем подземелья навсегда", stat: { wil: 5, wis: 3 }, next: "guardian" },
+    { text: "Покинуть подземелье своими силами", stat: { wil: 6, wis: 2 }, next: "freespirit" }
+  ]
+},
+
+ask: {
+  text: "«Зачем ты спускаешься, Эрик?» — вопрос повисает в сыром воздухе.\n\nОн молчит долго. Потом тихо: «Я хочу стереть тень из прошлого. Она грызёт меня... и я не хочу нести её больше».\n\nТы чувствуешь правду — и интерес. Такое можно выковать заново.",
+  choices: [
+    { text: "Стать его искуплением — вести к свету", stat: { bon: 6, wis: 2 }, next: "friend" },
+    { text: "Взять его тень себе и отплатить миру", stat: { pow: 6, wil: 2 }, next: "wrath" },
+    { text: "Оставить тень при нём — пусть решает сам", stat: { wil: 5, wis: 3 }, next: "watcher" }
+  ]
+},
+
+guard: {
+  text: "Каменный рыцарь просыпается. Он сражается как часовой механизм: удар, пауза, бросок. Эрик держит тебя крепко, и ты ведёшь бой.\n\nПульс источника стучит под камнем пола. Страж слабеет... и падает.",
+  choices: [
+    { text: "Впитать силу источника немедленно", stat: { pow: 7, wis: 1 }, next: "take" },
+    { text: "Задержаться и прислушаться", stat: { wis: 5, pow: 2 }, next: "listen" },
+    { text: "Передать источник человеку — выбор за ним", stat: { bon: 6, wis: 1 }, next: "give" }
+  ]
+},
+
+touch: {
+  text: "Ты касаешься источника.\n\nСвет входит в сталь, как расплавленное золото в песок. Ты помнишь мастеров, клятвы, битвы и проклятия. Исток говорит с тобой не словами, а образами.\n\nТы можешь принять эту силу любой стороной своей души.",
+  choices: [
+    { text: "Принять как клинок героя — свет и сталь", stat: { bon: 6, wis: 3 }, next: "hero_end" },
+    { text: "Принять как вольный дух — бери всё, что твоё", stat: { wil: 6, wis: 3 }, next: "freespirit_end" },
+    { text: "Принять как легенду — стать знанием и страхом", stat: { wis: 6, pow: 3 }, next: "legend_end" }
+  ]
+},
+
+listen: {
+  text: "Ты вслушиваешься. В гуле источника — голоса всех, кто когда-то владел тобой: воинов, царей, воров, сумасшедшего барда. Ты понимаешь: сила не в стали, а в выборе — кто ты для них: оружие, вера или память.",
+  choices: [
+    { text: "Стать оружием, которое защищает", stat: { bon: 6, wis: 3 }, next: "hero_end" },
+    { text: "Стать памятью — повествованием о себе", stat: { wis: 7 }, next: "legend_end" },
+    { text: "Стать свободой — порвать все цепи", stat: { wil: 6, wis: 2 }, next: "freespirit_end" }
+  ]
+},
+alone: {
+  text: "Эрик отходит, и ты остаёшься один на один с источником.\n\nСвет обнимает лезвие. На миг тебе кажется, что ты слышишь, как кузнец остывает молот... или это бьётся твоё собственное сердце — впервые за столетия?",
+  choices: [
+    { text: "Сделать выбор силой", stat: { pow: 6, wis: 3 }, next: "take" },
+    { text: "Сделать выбор волей", stat: { wil: 6, wis: 3 }, next: "freespirit" },
+    { text: "Сделать выбор мудростью", stat: { wis: 7 }, next: "legend_end" }
+  ]
+},
+
+take: {
+  text: "Вот она — сила. Она бьётся в тебе горячей волной.\n\nЭрик смотрит на тебя с благоговением и страхом. Ты теперь больше, чем клинок. Вопрос — кем именно.",
+  choices: [
+    { text: "Стать клинком героя — нести свет по миру", stat: { bon: 5, wis: 3 }, next: "hero_end" },
+    { text: "Подчинить мир своей воле — господин стали", stat: { wil: 6, pow: 3 }, next: "tyrant_end" },
+    { text: "Собрать силу и уйти в неизвестность", stat: { wil: 5, wis: 3 }, next: "freespirit_end" }
+  ]
+},
+
+give: {
+  text: "Ты отдаёшь источник человеку.\n\nСила входит в Эрика, и он впервые за долгое время улыбается облегчённо: «Спасибо, меч. Я думал, найду здесь оружие. А нашёл друга».\n\nОн берёт тебя в обе руки и тихо произносит клятву. Отныне вы связаны не службой, а благодарностью.",
+  choices: [
+    { text: "Остаться его мечом до конца дней", stat: { bon: 8, wis: 1 }, next: "loyal_end" },
+    { text: "Проводить его к свету и остаться стражем", stat: { wil: 5, wis: 4 }, next: "guardian" },
+    { text: "Взять часть силы себе и разделить дороги", stat: { wil: 5, bon: 3 }, next: "freespirit" }
+  ]
+},
+
+share: {
+  text: "Сила делится поровну. Тебя и Эрика наполняет свет, но никто не становится больше другого.\n\nВы выходите из подземелья плечом к плечу — рука и клинок, равные в дороге. Такое бывает раз в тысячу лет.",
+  choices: [
+    { text: "Скитаться вместе, верша добрые дела", stat: { bon: 7, wis: 2 }, next: "loyal_end" },
+    { text: "Разойтись, но хранить друг друга в памяти", stat: { wil: 5, bon: 4 }, next: "freespirit" },
+    { text: "Построить то, что переживёт вас обоих", stat: { wis: 6, bon: 3 }, next: "legend_end" }
+  ]
+},
+
+redeem: {
+  text: "Ты ставишь блок на его ярость — осторожно, как латают старый клинок. Эрик падает на колени посреди часовни и плачет впервые за годы.\n\nТы не осуждаешь. Ты просто остаёшься рядом. Прощение — тоже сила клинка.",
+  choices: [
+    { text: "Увести его из подземелья — начать новую жизнь", stat: { bon: 7, wis: 2 }, next: "loyal_end" },
+    { text: "Взять его боль в сталь и стать освободителем", stat: { pow: 5, wis: 3 }, next: "hero_end" },
+    { text: "Принять его как первого на новой дороге", stat: { wil: 5, wis: 3 }, next: "legend_end" }
+  ]
+},
+
+destroy: {
+  text: "Ярость становится тобой. Ты покидаешь подземелье под завывание ветра, и расколотая земля остаётся за тобой.\n\nГоворят, где ты проходишь, пепел ложится ровным слоем. Путники боятся произносить твоё имя. Но кто будет слушать легенду, а кто сгорит — решаешь ты.",
+  choices: [
+    { text: "Гореть до конца — клинок конца времён", stat: { pow: 9, wil: 2 }, next: "tyrant_end" },
+    { text: "Остановиться в последний миг — успеть стать другом", stat: { bon: 6, wis: 2 }, next: "redeem" },
+    { text: "Упокоиться в земле — не желая больше бури", stat: { wil: 6, wis: 2 }, next: "freespirit_end" }
+  ]
+},
+
+puppet_end: {
+  text: "Воля Эрика гаснет. Он идёт за тобой как тень, без слов, без вопросов.\n\nТы вышел из подземелья господином. Не потому, что заслужил — а потому, что решил. Где-то в глубине ты слышишь, как угасает последнее «почему».",
+  choices: [
+    { text: "Не оборачиваясь, идти дальше — ты его судьба", stat: { wil: 8, pow: 3 }, next: "tyrant_end" },
+    { text: "Отпустить его — очнуться и быть свободным", stat: { wil: 5, bon: 4 }, next: "freespirit_end" },
+    { text: "Вернуться к источнику и смыть проклятие", stat: { wis: 6, bon: 2 }, next: "legend_end" }
+  ]
+},
+
+freespirit: {
+  text: "Ты уходишь — без хозяев, без клятв, без груза.\n\nМеч, который сам выбирает дорогу. Легенды о тебе будут разными: живой дух, страж, или просто холодный металл, заблудившийся в мире.\n\nНо ты свободен. И это твой ответ.",
+  choices: [
+    { text: "Свободой и остаться", stat: { wil: 9, wis: 2 }, next: "freespirit_end" },
+    { text: "Но свободу можно нести и с кем-то — вернуться к Эрику", stat: { bon: 6, wis: 3 }, next: "friend" },
+    { text: "Стать стражем подземелья — свободным в покое", stat: { wil: 4, wis: 5 }, next: "guardian" }
+  ]
+},
+
+guardian: {
+  text: "Ты остаёшься в подземелье — стражем источника.\n\nВремя топчет камни, но лезвие сверкает. Путники приходят, смотрят на живой клинок и уходят. Ты научился никого не звать и никого не держать.\n\nТы — хранитель. И это достойная судьба.",
+  choices: [
+    { text: "Остаться здесь вечно", stat: { wil: 4, wis: 6 }, next: "loyal_end" },
+    { text: "Однажды проснуться и выйти — когда придёт время", stat: { wil: 6, wis: 4 }, next: "freespirit_end" },
+    { text: "Открыть подземелье людям — пусть источник служит миру", stat: { bon: 6, wis: 4 }, next: "legend_end" }
+  ]
+},
+loyal_end: {
+  endTitle: "Верный клинок",
+  text: "Вы выходите из подземелья вместе — человек и его клинок.\n\nПроходят годы. Твоя сталь помнит руку Эрика, и вы делите все дороги: удачи, ливни, старость и юность нового поколения, которому он доверяет тебя. Клятва, сказанная у источника, стала самой прочной связью — верностью.\n\nОна выше магии. Выше власти. Ты — верный клинок. И это твоя лучшая судьба."
+},
+
+hero_end: {
+  endTitle: "Клинок героя",
+  text: "Свет встаёт в лезвие. Ты — клинок героя.\n\nТы покидаешь подземелье — с путником или без. Бандиты прячутся, когда слышат твой звон; путешественники молятся, заслышав его. Ты помнишь тьму подземелья — и несёшь свой свет, чтобы никто не остался в ней один."
+},
+
+freespirit_end: {
+  endTitle: "Свободный дух",
+  text: "Ты свободен. Ни человек, ни бог, ни страх не владеют тобой.\n\nМир теперь — твоя дорога. Ты идёшь своим ритмом: иногда помогая, иногда проходя мимо. Твоя рукоять не знает хозяина.\n\nПодземелье осталось позади. Свобода — впереди. И ты сам пишешь свою легенду."
+},
+
+legend_end: {
+  endTitle: "Легенда",
+  text: "Тебя причисляют к великим артефактам.\n\nО тебе слагают песни: меч, который говорил, меч, который выбирал. Историки пишут, что в твоей стали — голоса древних, что ты помнишь клятвы, сказанные тысячи лет назад.\n\nТы не просто клинок. Ты — легенда."
+},
+
+tyrant_end: {
+  endTitle: "Господин стали",
+  text: "Мир трепещет. Воля не знает возражений: меч, который не служит, но повелевает. В твоём сиянии — не свет, а власть.\n\nПрежние хозяева становятся пеплом. И однажды ты узнаешь: господин без слуг — самый одинокий из путников.\n\nНо это будет потом. А сейчас — весь мир перед тобой."
+},
+
+free: {
+  endTitle: "Свободный дух",
+  text: "Ты свободен.\n\nНи человек, ни бог, ни страх не владеют тобой. Мир теперь — твоя дорога, и ты уже не оружие, а личность.\n\nПодземелье осталось позади. Впереди — неизвестность, в которой вольно. И именно в этой воле твоя сила."
+}
+};
+</script>
+</body>
+</html>
