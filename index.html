@@ -21,7 +21,7 @@
     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112973014', 'ym');
 
     ym(112973014, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
+  </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/112973014" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 <link rel="canonical" href="https://excelprice.ru/">
@@ -373,6 +373,23 @@
     transition: border-color .15s, background .15s;
   }
   .model-links a:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+  /* Шторка «Полный список товаров» */
+  .catalog-toggle {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    width: 100%; margin: 22px 0 0; padding: 16px 20px;
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    cursor: pointer; font-family: inherit; text-align: left; min-height: 60px;
+    box-shadow: 0 1px 4px rgba(31,42,55,.05);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .catalog-toggle:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(31,42,55,.1); }
+  .catalog-toggle-title { font-size: 17px; font-weight: 700; color: var(--ink); }
+  .catalog-toggle-count { font-size: 13px; color: var(--muted); }
+  .catalog-toggle-arrow { font-size: 16px; color: var(--accent); transition: transform .2s; }
+  .catalog-toggle[aria-expanded="true"] .catalog-toggle-arrow { transform: rotate(180deg); }
+  .catalog-extra { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .catalog-extra[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -525,6 +542,15 @@
           <p class="note" style="margin-top:10px;font-size:13px">Посмотреть пример можно бесплатно: <a href="buy-zapchasti-kia-rio-2019-v2.xlsx" download>скачать Kia (Excel)</a></p>
         </div>
       </div>
+    </div>
+
+    <button class="catalog-toggle" id="catalogToggle" aria-expanded="false">
+      <span class="catalog-toggle-title">Полный список товаров</span>
+      <span class="catalog-toggle-count">9 готовых прайсов</span>
+      <span class="catalog-toggle-arrow">▾</span>
+    </button>
+
+    <div class="catalog-extra" id="catalogExtra" hidden>
       <div class="product-card" data-model="mercedes-e210">
         <div class="p-head">
           <span class="p-tag ready">Готов к выдаче</span>
@@ -734,13 +760,14 @@
             <li>Сводка по категориям и дашборд</li>
           </ul>
         </div>
-        <div class="p-foot">
+<div class="p-foot">
           <div class="price"><span class="old-price">799 ₽</span>499 ₽</div>
           <div class="actions">
             <a class="btn btn-primary btn-buy" href="javascript:void(0)">Купить за 499 ₽</a>
           </div>
         </div>
       </div>
+    </div>
       <div class="product-card builder">
         <div class="p-head">
           <span class="p-tag">Соберём</span>
@@ -760,8 +787,7 @@
         <div class="p-foot">
           <div class="price">по запросу</div>
           <div class="actions">
-            <a class="btn btn-outline" href="#order">Оставить заявку</a>
-          </div>
+<a class="btn btn-outline" href="#order">Оставить заявку</a>
         </div>
       </div>
     </div>
@@ -1132,6 +1158,22 @@ document.addEventListener("click", function (e) {
     document.addEventListener("DOMContentLoaded", initBuy);
   } else {
     initBuy();
+  }
+
+  // ==== ШТОРКА «Полный список товаров» ====
+  var catalogToggle = document.getElementById("catalogToggle");
+  var catalogExtra = document.getElementById("catalogExtra");
+  if (catalogToggle && catalogExtra) {
+    catalogToggle.addEventListener("click", function () {
+      var open = catalogExtra.hidden;
+      catalogExtra.hidden = !open;
+      catalogToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) {
+        catalogToggle.querySelector(".catalog-toggle-title").textContent = "Свернуть список товаров";
+      } else {
+        catalogToggle.querySelector(".catalog-toggle-title").textContent = "Полный список товаров";
+      }
+    });
   }
 </script>
 
