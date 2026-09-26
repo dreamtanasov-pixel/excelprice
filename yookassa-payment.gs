@@ -147,18 +147,27 @@ function handleSuccess_(payment) {
   var paymentId = payment.id;
   if (!modelId || !FILE_BASE64.hasOwnProperty(modelId)) { console.log("skip model"); return; }
   if (Math.abs(parseFloat(amount) - PRICE) > 0.01) { console.log("sum mismatch " + amount); return; }
+  var props = PropertiesService.getScriptProperties();
+  // Идемпотентность: если платёж уже обработан — не дублируем запись и не слагаем email повторно
+  if (props.getProperty("pay:" + paymentId)) {
+    sendFileByEmail_(paymentId, modelId);
+    return;
+  }
   var token = Utilities.getUuid().replace(/-/g, "");
   var customer = (payment.payment_method && payment.payment_method.id) || "";
   logSale_(paymentId, modelId, amount, "paid", token, customer);
-  PropertiesService.getScriptProperties().setProperty("pay:" + paymentId, token + "|" + modelId);
+  props.setProperty("pay:" + paymentId, token + "|" + modelId);
   // отправляем файл на email покупателя, если он указан
   sendFileByEmail_(paymentId, modelId);
 }
 
 // Отправить файл на email покупателя (временная ссылка на скачивание)
 function sendFileByEmail_(paymentId, modelId) {
-  var email = PropertiesService.getScriptProperties().getProperty("eml:" + paymentId);
+  var props = PropertiesService.getScriptProperties();
+  var email = props.getProperty("eml:" + paymentId);
   if (!email) return; // email не указан — файл доступен на странице успеха
+  // Защита от дублей: письмо шлём только один раз на каждый платёж
+  if (props.getProperty("sent:" + paymentId)) return;
   try {
     var b64 = FILE_BASE64[modelId];
     if (!b64) return;
@@ -167,6 +176,7 @@ function sendFileByEmail_(paymentId, modelId) {
     var subject = "Ваш прайс ExcelPrice: " + (MODELS[modelId] || modelId);
     var body = "Здравствуйте!\n\nСпасибо за покупку. Прайс-лист прикреплён к этому письму.\n\nЕсли письмо открыть на телефоне — файл также доступен по ссылке в течение 30 дней:\nhttps://excelprice.ru/kassa-success.html\n\nС уважением, ExcelPrice.";
     MailApp.sendEmail(email, subject, body, { attachments: [fileBlob] });
+    props.setProperty("sent:" + paymentId, "1");
   } catch (e) {
     console.warn("email fail: " + e);
   }
