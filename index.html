@@ -1180,20 +1180,19 @@ document.addEventListener("click", function (e) {
   }
 
   // ==== ШТОРКА «Полный список товаров» ====
-  var catalogToggle = document.getElementById("catalogToggle");
-  var catalogExtra = document.getElementById("catalogExtra");
-  if (catalogToggle && catalogExtra) {
-    catalogToggle.addEventListener("click", function () {
-      var open = catalogExtra.hidden;
-      catalogExtra.hidden = !open;
-      catalogToggle.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open) {
-        catalogToggle.querySelector(".catalog-toggle-title").textContent = "Свернуть список товаров";
-      } else {
-        catalogToggle.querySelector(".catalog-toggle-title").textContent = "Полный список товаров";
-      }
-    });
-  }
+  // Делегированный обработчик на document — работает независимо от кэша/момента загрузки
+  document.addEventListener("click", function (e) {
+    var toggleBtn = e.target.closest("#catalogToggle");
+    if (!toggleBtn) return;
+    var catalogExtra = document.getElementById("catalogExtra");
+    var catalogToggle = document.getElementById("catalogToggle");
+    if (!catalogExtra || !catalogToggle) return;
+    var open = catalogExtra.hidden;
+    catalogExtra.hidden = !open;
+    catalogToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    var title = catalogToggle.querySelector(".catalog-toggle-title");
+    if (title) title.textContent = open ? "Свернуть список товаров" : "Полный список товаров";
+  });
 </script>
 
 <!-- Модальное окно: запрос email перед оплатой -->
