@@ -77,8 +77,9 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
   /* Header */
   header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;gap:28px;height:70px}
-  .logo{font-size:22px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;white-space:nowrap}
-  .logo b{color:var(--brand)}
+  .logo{font-size:22px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:10px;white-space:nowrap;text-decoration:none}
+  .logo img{height:42px;width:auto}
+  .logo span{color:var(--brand)}
   .nav-menu{display:flex;align-items:center;gap:4px;margin-left:auto}
   .nav-menu a{color:var(--ink);font-weight:600;padding:10px 14px;border-radius:10px;font-size:15px}
   .nav-menu a:hover{background:#eef2ff;color:var(--brand)}
@@ -251,12 +252,13 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
 
   .hero-figure img{max-width:440px}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">🚗 Excel<b>Price</b></a>
+    <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="logo-muscle-car.jpg" alt="">Excel<span>Price</span></a>
     <nav class="nav-menu" id="navMenu">
       <a href="#catalog" class="cta">Магазин</a>
       <a href="#benefits">Что получаете</a>
@@ -271,7 +273,7 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
 <section class="hero">
   <div class="wrap">
     <div class="hero-text">
-      <span class="hero-badge">⚡ 50 готовых прайсов · скачивание сразу после оплаты</span>
+      <span class="hero-badge"><i class="bi bi-lightning-charge-fill"></i> 50 готовых прайсов · скачивание сразу после оплаты</span>
       <h1>Бу-запчасти и цены со всего интернета — <span class="grad">в одной таблице Excel</span></h1>
       <p class="lead">Выбираете модель — получаете полный прайс: все запчасти, актуальные цены по России, ссылки на Avito и Дром. Для частника, авторазборки или магазина.</p>
       <div class="hero-cta">
@@ -299,7 +301,7 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
   <div class="wrap">
     <div class="quick">
       <div class="quick-search">
-        <i class="ico">🔍</i>
+        <i class="ico bi bi-search"></i>
         <input type="text" id="quickSearch" placeholder="Поиск авто: например, Kia Rio, Toyota Camry, Приора…" autocomplete="off" aria-label="Поиск автомобиля">
       </div>
       <div class="quick-title">Или выберите марку:</div>
@@ -332,19 +334,19 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
       <p>Полную Excel-таблицу: все запчасти на вашу модель авто и по каждой — актуальные цены со всего интернета. Ничего искать самому не нужно.</p>
     </div>
     <div class="benefits">
-      <div class="b-card"><div class="b-ico">🚙</div><h3>Частным автовладельцам</h3><ul>
+      <div class="b-card"><div class="b-ico"><i class="bi bi-car-front"></i></div><h3>Частным автовладельцам</h3><ul>
         <li>Полная таблица всех запчастей на вашу модель</li>
         <li>Цены со всего интернета по каждой позиции</li>
         <li>Где дешевле всего — ссылки на объявления по России</li>
         <li>Проверка цены: не переплатите на разборке</li>
       </ul></div>
-      <div class="b-card"><div class="b-ico">🏪</div><h3>Авторазборкам и магазинам</h3><ul>
+      <div class="b-card"><div class="b-ico"><i class="bi bi-shop"></i></div><h3>Авторазборкам и магазинам</h3><ul>
         <li>Готовый прайс-лист по модели: мин / макс / средняя</li>
         <li>Категории, артикулы, примечания для менеджеров</li>
         <li>Лист с источниками и дашборд-сводка</li>
         <li>Регулярное обновление цен</li>
       </ul></div>
-      <div class="b-card"><div class="b-ico">🛠</div><h3>Отдельные задачи</h3><ul>
+      <div class="b-card"><div class="b-ico"><i class="bi bi-tools"></i></div><h3>Отдельные задачи</h3><ul>
         <li>Только нужные категории, а не вся таблица</li>
         <li>Сравнение цен по регионам (вся Россия / ваш город)</li>
         <li>Проверка выгрузок из 1С и каталогов</li>
@@ -1081,9 +1083,9 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
       <p>Напишите в мессенджер или позвоните — расскажу, сколько стоит ваш запрос, за 10 минут. Регион: Москва · работаем по всей России (онлайн).</p>
     </div>
     <div class="contacts">
-      <div class="contact-card"><div class="ico">📧</div><h3>Email</h3><a href="mailto:dot.akc@yandex.ru">dot.akc@yandex.ru</a><p>Отвечаю в течение часа</p></div>
-      <div class="contact-card"><div class="ico">📞</div><h3>Телефон</h3><a href="tel:+79000004469">+7 (900) 000-44-69</a><p>Ежедневно с 9:00 до 21:00</p><a class="btn btn-sm btn-outline" href="https://wa.me/79000004469" target="_blank" rel="noopener">Написать в WhatsApp</a></div>
-      <div class="contact-card"><div class="ico">💬</div><h3>Telegram</h3><a href="https://t.me/Excelprice" target="_blank" rel="noopener">@Excelprice</a><p>Быстрее всего — заявка сюда</p><a class="btn btn-sm btn-outline" href="https://t.me/Excelprice" target="_blank" rel="noopener">Написать в Telegram</a></div>
+      <div class="contact-card"><div class="ico"><i class="bi bi-envelope"></i></div><h3>Email</h3><a href="mailto:dot.akc@yandex.ru">dot.akc@yandex.ru</a><p>Отвечаю в течение часа</p></div>
+      <div class="contact-card"><div class="ico"><i class="bi bi-telephone"></i></div><h3>Телефон</h3><a href="tel:+79000004469">+7 (900) 000-44-69</a><p>Ежедневно с 9:00 до 21:00</p><a class="btn btn-sm btn-outline" href="https://wa.me/79000004469" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> Написать в WhatsApp</a></div>
+      <div class="contact-card"><div class="ico"><i class="bi bi-send"></i></div><h3>Telegram</h3><a href="https://t.me/Excelprice" target="_blank" rel="noopener">@Excelprice</a><p>Быстрее всего — заявка сюда</p><a class="btn btn-sm btn-outline" href="https://t.me/Excelprice" target="_blank" rel="noopener"><i class="bi bi-send"></i> Написать в Telegram</a></div>
     </div>
   </div>
 </section>
