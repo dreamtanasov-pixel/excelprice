@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="Автомобиль">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eaf1fb"/>
+      <stop offset="1" stop-color="#dbeafe"/>
+    </linearGradient>
+    <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d5a99"/>
+      <stop offset="1" stop-color="#1f2a4d"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#cfe4ff"/>
+      <stop offset="1" stop-color="#8fb6ee"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#sky)"/>
+  <ellipse cx="300" cy="360" rx="520" ry="90" fill="#ffffff" opacity=".5"/>
+  <ellipse cx="360" cy="120" rx="180" ry="120" fill="url(#glow)"/>
+
+  <path d="M118 214 L150 172 L212 160 L340 158 L430 176 L452 200 L472 216 L482 252 L460 260 L438 252 L168 252 L146 260 L124 252 Z" fill="url(#paint)"/>
+  <path d="M158 256 Q300 234 436 256 L436 268 Q300 248 158 268 Z" fill="#2a3d6b"/>
+  <path d="M255 166 L305 166 L306 214 L255 214 Z" fill="url(#glass)"/>
+  <path d="M310 166 L388 176 L404 214 L310 214 Z" fill="url(#glass)"/>
+  <path d="M452 206 L500 232 L496 248 L452 232 Z" fill="#2a3d6b"/>
+  <ellipse cx="170" cy="326" rx="62" ry="18" fill="#0f2440" opacity=".25"/>
+  <ellipse cx="440" cy="326" rx="62" ry="18" fill="#0f2440" opacity=".25"/>
+  <circle cx="168" cy="312" r="40" fill="#1b1b2f"/>
+  <circle cx="168" cy="312" r="16" fill="#9aa7c0"/>
+  <circle cx="444" cy="312" r="40" fill="#1b1b2f"/>
+  <circle cx="444" cy="312" r="16" fill="#9aa7c0"/>
+
+</svg>
