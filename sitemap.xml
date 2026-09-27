@@ -306,16 +306,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://excelprice.ru/policy.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://excelprice.ru/oferta.html</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
-  </url>
+  
+  
 </urlset>
