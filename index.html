@@ -128,7 +128,7 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
   .section-head{text-align:center;max-width:680px;margin:0 auto 40px}
   .section-head h2{font-size:34px;letter-spacing:-.02em;margin-bottom:10px}
   .section-head p{color:var(--muted);font-size:17px}
-  #catalog .section-head h2{color:#2563eb}
+  #catalog .section-head h2{color:#1b3a6b}
   #catalog .section-head p{color:#1d4ed8}
   .alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 
@@ -307,7 +307,7 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
       <h1>Бу-запчасти и цены со всего интернета — <span class="grad">в одной таблице Excel</span></h1>
       <p class="lead">Выбираете модель — получаете полный прайс: все запчасти, актуальные цены по России, ссылки на Avito и Дром. Для частника, авторазборки или магазина.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#quick">Найти своё авто</a>
+        <a class="btn btn-primary" href="#catalog">Найти своё авто</a>
         <a class="btn btn-outline" href="#catalog">Все прайсы</a>
         <a class="btn btn-sample" href="#sample">Посмотреть пример</a>
       </div>
@@ -327,46 +327,35 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
   </div>
 </section>
 
-<section id="quick" style="padding-top:0">
-  <div class="wrap">
-    <div class="quick">
-      <div class="quick-search">
-        <i class="ico bi bi-search"></i>
-        <input type="text" id="quickSearch" placeholder="Поиск авто: например, Kia Rio, Toyota Camry, Приора…" autocomplete="off" aria-label="Поиск автомобиля">
-      </div>
-      <div class="quick-title">Или выберите марку:</div>
-      <div class="brand-filters" id="brandFilters">
-        <button class="f-btn active" data-f="Все">Все</button>
-        <button class="f-btn" data-f="BMW">BMW</button>
-    <button class="f-btn" data-f="Chevrolet">Chevrolet</button>
-    <button class="f-btn" data-f="Ford">Ford</button>
-    <button class="f-btn" data-f="Hyundai">Hyundai</button>
-    <button class="f-btn" data-f="Kia">Kia</button>
-    <button class="f-btn" data-f="Lada">Lada</button>
-    <button class="f-btn" data-f="Mazda">Mazda</button>
-    <button class="f-btn" data-f="Mercedes">Mercedes</button>
-    <button class="f-btn" data-f="Mitsubishi">Mitsubishi</button>
-    <button class="f-btn" data-f="Nissan">Nissan</button>
-    <button class="f-btn" data-f="Renault">Renault</button>
-    <button class="f-btn" data-f="Skoda">Skoda</button>
-    <button class="f-btn" data-f="Subaru">Subaru</button>
-    <button class="f-btn" data-f="Toyota">Toyota</button>
-    <button class="f-btn" data-f="VW">VW</button>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="catalog">
   <div class="wrap">
     <div class="section-head">
       <h2>Магазин готовых прайсов</h2>
       <p>Уже собранные таблицы по 50 популярным моделям — купите сразу, без ожидания. Другая модель? Оставьте заявку — соберу под ваше авто.</p>
     </div>
-    <p style="color:#2563eb;font-weight:600;max-width:760px;margin:0 auto 24px;text-align:center">Важно: цены найдены не на каждую запчасть — часть позиций помечена «—» и уточняется у разборок. Перед покупкой скачайте бесплатный пример.</p>
+    <p style="color:#0f172a;font-weight:600;max-width:760px;margin:0 auto 24px;text-align:center">Важно: цены найдены не на каждую запчасть — часть позиций помечена «—» и уточняется у разборок. Перед покупкой скачайте бесплатный пример.</p>
     <div class="catalog-toolbar" id="catalogToolbar">
       <div class="catalog-count">Прайсов: <b id="catCount">50</b></div>
       <a class="btn btn-sm btn-outline" href="#order">Нужна другая модель?</a>
+    </div>
+    <div class="quick-title" style="padding-top:6px">Выберите марку:</div>
+    <div class="brand-filters" id="brandFilters" style="margin-bottom:20px">
+      <button class="f-btn active" data-f="Все">Все</button>
+      <button class="f-btn" data-f="BMW">BMW</button>
+      <button class="f-btn" data-f="Chevrolet">Chevrolet</button>
+      <button class="f-btn" data-f="Ford">Ford</button>
+      <button class="f-btn" data-f="Hyundai">Hyundai</button>
+      <button class="f-btn" data-f="Kia">Kia</button>
+      <button class="f-btn" data-f="Lada">Lada</button>
+      <button class="f-btn" data-f="Mazda">Mazda</button>
+      <button class="f-btn" data-f="Mercedes">Mercedes</button>
+      <button class="f-btn" data-f="Mitsubishi">Mitsubishi</button>
+      <button class="f-btn" data-f="Nissan">Nissan</button>
+      <button class="f-btn" data-f="Renault">Renault</button>
+      <button class="f-btn" data-f="Skoda">Skoda</button>
+      <button class="f-btn" data-f="Subaru">Subaru</button>
+      <button class="f-btn" data-f="Toyota">Toyota</button>
+      <button class="f-btn" data-f="VW">VW</button>
     </div>
     <div class="c-grid" id="catalogGrid">
       <article class="p-card" data-brand="BMW" data-name="bmw 3 серии" data-model="bmw-3" data-href="bmw-3.html">
