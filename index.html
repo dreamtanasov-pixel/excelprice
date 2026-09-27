@@ -357,32 +357,609 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
       <button class="f-btn" data-f="Toyota">Toyota</button>
       <button class="f-btn" data-f="VW">VW</button>
     </div>
-    <div class="c-grid" id="catalogGrid"></div>
-
-<script>
-  // Каталог 50 моделей рендерится из данных (компактнее, чтобы не резался CDN)
-  var CATALOG=var CATALOG=[{b:"BMW",n:"bmw 3 серии",m:"bmw-3",h:"bmw-3.html",t:"BMW 3 серии",s:"E90, N46/N52",p:"img/cars/bmw-3.jpg",o:"BMW 3 серии — бу-запчасти",q:"32 поз.",k:"7 кат."},{b:"BMW",n:"bmw 5 серии",m:"bmw-5",h:"bmw-5.html",t:"BMW 5 серии",s:"E60, N52",p:"img/cars/bmw-5.jpg",o:"BMW 5 серии — бу-запчасти",q:"31 поз.",k:"7 кат."},{b:"Chevrolet",n:"chevrolet aveo",m:"chevrolet-aveo",h:"chevrolet-aveo.html",t:"Chevrolet Aveo",s:"T250/T300, F15S3/F16",p:"img/cars/chevrolet-aveo.jpg",o:"Chevrolet Aveo — бу-запчасти",q:"38 поз.",k:"7 кат."},{b:"Chevrolet",n:"chevrolet cruze",m:"chevrolet-cruze",h:"chevrolet-cruze.html",t:"Chevrolet Cruze",s:"J300, F16D3/F18D4",p:"img/cars/chevrolet-cruze.jpg",o:"Chevrolet Cruze — бу-запчасти",q:"40 поз.",k:"7 кат."},{b:"Chevrolet",n:"chevrolet lacetti",m:"chevrolet-lacetti",h:"chevrolet-lacetti.html",t:"Chevrolet Lacetti",s:"J200, F16D3",p:"img/cars/chevrolet-lacetti.jpg",o:"Chevrolet Lacetti — бу-запчасти",q:"34 поз.",k:"7 кат."},{b:"Ford",n:"ford focus 2/3",m:"ford-focus",h:"ford-focus.html",t:"Ford Focus 2/3",s:"Duratec, 2006-2016",p:"img/cars/ford-focus.jpg",o:"Ford Focus 2/3 — бу-запчасти",q:"36 поз.",k:"7 кат."},{b:"Hyundai",n:"hyundai creta",m:"hyundai-creta",h:"hyundai-creta.html",t:"Hyundai Creta",s:"1.6 G4FG, 2019",p:"img/cars/hyundai-creta.jpg",o:"Hyundai Creta — бу-запчасти",q:"28 поз.",k:"6 кат."},{b:"Hyundai",n:"hyundai elantra",m:"hyundai-elantra",h:"hyundai-elantra.html",t:"Hyundai Elantra",s:"HD/JK, G4FC/G4GC",p:"img/cars/hyundai-elantra.jpg",o:"Hyundai Elantra — бу-запчасти",q:"42 поз.",k:"7 кат."},{b:"Hyundai",n:"hyundai santa fe",m:"hyundai-santa-fe",h:"hyundai-santa-fe.html",t:"Hyundai Santa Fe",s:"DM, G4KJ",p:"img/cars/hyundai-santa-fe.jpg",o:"Hyundai Santa Fe — бу-запчасти",q:"53 поз.",k:"7 кат."},{b:"Hyundai",n:"hyundai solaris",m:"hyundai-solaris",h:"hyundai-solaris.html",t:"Hyundai Solaris",s:"1.6 G4FC, 2015",p:"img/cars/hyundai-solaris.jpg",o:"Hyundai Solaris — бу-запчасти",q:"40 поз.",k:"7 кат."},{b:"Hyundai",n:"hyundai tucson",m:"hyundai-tucson",h:"hyundai-tucson.html",t:"Hyundai Tucson",s:"LM/TLE, G4NA",p:"img/cars/hyundai-tucson.jpg",o:"Hyundai Tucson — бу-запчасти",q:"28 поз.",k:"7 кат."},{b:"Kia",n:"kia ceed",m:"kia-ceed",h:"kia-ceed.html",t:"Kia Ceed",s:"JD, G4FG",p:"img/cars/kia-ceed.jpg",o:"Kia Ceed — бу-запчасти",q:"46 поз.",k:"7 кат."},{b:"Kia",n:"kia optima",m:"kia-optima",h:"kia-optima.html",t:"Kia Optima",s:"JF/TF, G4NA/G4KJ",p:"img/cars/kia-optima.jpg",o:"Kia Optima — бу-запчасти",q:"40 поз.",k:"7 кат."},{b:"Kia",n:"kia rio",m:"kia-rio",h:"kia-rio.html",t:"Kia Rio",s:"2019, 1.4 Comfort G4LC",p:"img/cars/kia-rio.jpg",o:"Kia Rio — бу-запчасти",q:"84 поз.",k:"7 кат."},{b:"Kia",n:"kia sorento",m:"kia-sorento",h:"kia-sorento.html",t:"Kia Sorento",s:"XM/UM, G4KJ",p:"img/cars/kia-sorento.jpg",o:"Kia Sorento — бу-запчасти",q:"39 поз.",k:"7 кат."},{b:"Kia",n:"kia sportage",m:"kia-sportage",h:"kia-sportage.html",t:"Kia Sportage",s:"SL/QL, G4NA",p:"img/cars/kia-sportage.jpg",o:"Kia Sportage — бу-запчасти",q:"46 поз.",k:"7 кат."},{b:"Lada",n:"lada",m:"lada-2107",h:"lada-2107.html",t:"Lada",s:"ВАЗ) 2107 (классика, 1.6",p:"img/cars/lada-2107.jpg",o:"Lada — бу-запчасти",q:"37 поз.",k:"7 кат."},{b:"Lada",n:"lada granta",m:"lada-granta",h:"lada-granta.html",t:"Lada Granta",s:"1.6, 2016",p:"img/cars/lada-granta.jpg",o:"Lada Granta — бу-запчасти",q:"38 поз.",k:"7 кат."},{b:"Lada",n:"lada kalina / kalina 2",m:"lada-kalina",h:"lada-kalina.html",t:"Lada Kalina / Kalina 2",s:"1.6, 1117-2192",p:"img/cars/lada-kalina.jpg",o:"Lada Kalina / Kalina 2 — бу-запчасти",q:"38 поз.",k:"7 кат."},{b:"Lada",n:"lada largus",m:"lada-largus",h:"lada-largus.html",t:"Lada Largus",s:"1.6 K4M, 2016",p:"img/cars/lada-largus.jpg",o:"Lada Largus — бу-запчасти",q:"31 поз.",k:"7 кат."},{b:"Lada",n:"lada niva 4x4",m:"lada-niva",h:"lada-niva.html",t:"Lada Niva 4x4",s:"1.7 21214, 2018",p:"img/cars/lada-niva.jpg",o:"Lada Niva 4x4 — бу-запчасти",q:"36 поз.",k:"7 кат."},{b:"Lada",n:"lada priora",m:"lada-priora",h:"lada-priora.html",t:"Lada Priora",s:"1.6 16V, 2170·2010-2013",p:"img/cars/lada-priora.jpg",o:"Lada Priora — бу-запчасти",q:"24 поз.",k:"7 кат."},{b:"Lada",n:"lada vesta",m:"lada-vesta",h:"lada-vesta.html",t:"Lada Vesta",s:"1.8, 2018",p:"img/cars/lada-vesta.jpg",o:"Lada Vesta — бу-запчасти",q:"44 поз.",k:"7 кат."},{b:"Lada",n:"lada xray",m:"lada-xray",h:"lada-xray.html",t:"Lada XRAY",s:"1.6/1.8, 2016-2020",p:"img/cars/lada-xray.jpg",o:"Lada XRAY — бу-запчасти",q:"34 поз.",k:"7 кат."},{b:"Mazda",n:"mazda 6",m:"mazda-6",h:"mazda-6.html",t:"Mazda 6",s:"GG/GH, L8/LF",p:"img/cars/mazda-6.jpg",o:"Mazda 6 — бу-запчасти",q:"34 поз.",k:"7 кат."},{b:"Mercedes",n:"mercedes e-class w210",m:"mercedes-e210",h:"mercedes-e210.html",t:"Mercedes E-Class W210",s:"M111, 1996",p:"img/cars/mercedes-e210.jpg",o:"Mercedes E-Class W210 — бу-запчасти",q:"93 поз.",k:"7 кат."},{b:"Mercedes",n:"mercedes-benz c-class w204",m:"mercedes-w204",h:"mercedes-w204.html",t:"Mercedes-Benz C-Class W204",s:"M271/M272",p:"img/cars/mercedes-w204.jpg",o:"Mercedes-Benz C-Class W204 — бу-запчасти",q:"30 поз.",k:"7 кат."},{b:"Mercedes",n:"mercedes-benz e-class w211",m:"mercedes-w211",h:"mercedes-w211.html",t:"Mercedes-Benz E-Class W211",s:"M272",p:"img/cars/mercedes-w211.jpg",o:"Mercedes-Benz E-Class W211 — бу-запчасти",q:"29 поз.",k:"7 кат."},{b:"Mitsubishi",n:"mitsubishi lancer x",m:"mitsubishi-lancer",h:"mitsubishi-lancer.html",t:"Mitsubishi Lancer X",s:"4A91/4B10",p:"img/cars/mitsubishi-lancer.jpg",o:"Mitsubishi Lancer X — бу-запчасти",q:"38 поз.",k:"7 кат."},{b:"Nissan",n:"nissan almera classic / g15",m:"nissan-almera",h:"nissan-almera.html",t:"Nissan Almera Classic / G15",s:"QG16DE",p:"img/cars/nissan-almera.jpg",o:"Nissan Almera Classic / G15 — бу-запчасти",q:"33 поз.",k:"7 кат."},{b:"Nissan",n:"nissan qashqai",m:"nissan-qashqai",h:"nissan-qashqai.html",t:"Nissan Qashqai",s:"J10/J11, MR20DE",p:"img/cars/nissan-qashqai.jpg",o:"Nissan Qashqai — бу-запчасти",q:"21 поз.",k:"7 кат."},{b:"Nissan",n:"nissan teana",m:"nissan-teana",h:"nissan-teana.html",t:"Nissan Teana",s:"J31/J32, VQ25/VQ35",p:"img/cars/nissan-teana.jpg",o:"Nissan Teana — бу-запчасти",q:"27 поз.",k:"7 кат."},{b:"Nissan",n:"nissan x-trail",m:"nissan-x-trail",h:"nissan-x-trail.html",t:"Nissan X-Trail",s:"T31/T32, MR20DD/QR25",p:"img/cars/nissan-x-trail.jpg",o:"Nissan X-Trail — бу-запчасти",q:"37 поз.",k:"7 кат."},{b:"Renault",n:"renault duster 1",m:"renault-duster",h:"renault-duster.html",t:"Renault Duster 1",s:"K4M/F4R, 2013-2018",p:"img/cars/renault-duster.jpg",o:"Renault Duster 1 — бу-запчасти",q:"36 поз.",k:"7 кат."},{b:"Renault",n:"renault kaptur",m:"renault-kaptur",h:"renault-kaptur.html",t:"Renault Kaptur",s:"H4M/F4R, 2016-2021",p:"img/cars/renault-kaptur.jpg",o:"Renault Kaptur — бу-запчасти",q:"28 поз.",k:"7 кат."},{b:"Renault",n:"renault logan 1",m:"renault-logan",h:"renault-logan.html",t:"Renault Logan 1",s:"K7M/K4M, 2010-2015",p:"img/cars/renault-logan.jpg",o:"Renault Logan 1 — бу-запчасти",q:"28 поз.",k:"7 кат."},{b:"Renault",n:"renault megane 2/3",m:"renault-megane",h:"renault-megane.html",t:"Renault Megane 2/3",s:"K4M/F4R",p:"img/cars/renault-megane.jpg",o:"Renault Megane 2/3 — бу-запчасти",q:"35 поз.",k:"7 кат."},{b:"Renault",n:"renault sandero 1",m:"renault-sandero",h:"renault-sandero.html",t:"Renault Sandero 1",s:"K7M/K4M, 2010-2016",p:"img/cars/renault-sandero.jpg",o:"Renault Sandero 1 — бу-запчасти",q:"43 поз.",k:"7 кат."},{b:"Skoda",n:"skoda fabia 2",m:"skoda-fabia",h:"skoda-fabia.html",t:"Skoda Fabia 2",s:"BXW/BTS, 2007-2015",p:"img/cars/skoda-fabia.jpg",o:"Skoda Fabia 2 — бу-запчасти",q:"36 поз.",k:"7 кат."},{b:"Skoda",n:"skoda rapid",m:"skoda-rapid",h:"skoda-rapid.html",t:"Skoda Rapid",s:"1.6, 2016",p:"img/cars/skoda-rapid.jpg",o:"Skoda Rapid — бу-запчасти",q:"14 поз.",k:"6 кат."},{b:"Skoda",n:"skoda yeti",m:"skoda-yeti",h:"skoda-yeti.html",t:"Skoda Yeti",s:"CBZA/CAXA, 2010-2017",p:"img/cars/skoda-yeti.jpg",o:"Skoda Yeti — бу-запчасти",q:"20 поз.",k:"6 кат."},{b:"Subaru",n:"subaru forester",m:"subaru-forester",h:"subaru-forester.html",t:"Subaru Forester",s:"SH, EJ20/EJ25",p:"img/cars/subaru-forester.jpg",o:"Subaru Forester — бу-запчасти",q:"34 поз.",k:"7 кат."},{b:"Toyota",n:"toyota auris / corolla",m:"toyota-auris",h:"toyota-auris.html",t:"Toyota Auris / Corolla",s:"E180, 1ZR-FE",p:"img/cars/toyota-auris.jpg",o:"Toyota Auris / Corolla — бу-запчасти",q:"35 поз.",k:"7 кат."},{b:"Toyota",n:"toyota camry",m:"toyota-camry",h:"toyota-camry.html",t:"Toyota Camry",s:"2018, XV70",p:"img/cars/toyota-camry.jpg",o:"Toyota Camry — бу-запчасти",q:"35 поз.",k:"7 кат."},{b:"Toyota",n:"toyota corolla",m:"toyota-corolla",h:"toyota-corolla.html",t:"Toyota Corolla",s:"E180, 1.6 1ZR-FE, 2016",p:"img/cars/toyota-corolla.jpg",o:"Toyota Corolla — бу-запчасти",q:"36 поз.",k:"7 кат."},{b:"Toyota",n:"toyota land cruiser prado 150",m:"toyota-prado",h:"toyota-prado.html",t:"Toyota Land Cruiser Prado 150",s:"2TR/1GR",p:"img/cars/toyota-prado.jpg",o:"Toyota Land Cruiser Prado 150 — бу-запчасти",q:"39 поз.",k:"6 кат."},{b:"Toyota",n:"toyota rav4",m:"toyota-rav4",h:"toyota-rav4.html",t:"Toyota RAV4",s:"XA40, 3ZR/2AR, 2013-2019",p:"img/cars/toyota-rav4.jpg",o:"Toyota RAV4 — бу-запчасти",q:"42 поз.",k:"6 кат."},{b:"VW",n:"vw passat b6/b7",m:"volkswagen-passat",h:"volkswagen-passat.html",t:"VW Passat B6/B7",s:"TSI/Duratec, 2008-2019",p:"img/cars/volkswagen-passat.jpg",o:"VW Passat B6/B7 — бу-запчасти",q:"41 поз.",k:"7 кат."},{b:"VW",n:"vw polo sedan",m:"volkswagen-polo",h:"volkswagen-polo.html",t:"VW Polo Sedan",s:"1.6 CWVA, 2016",p:"img/cars/volkswagen-polo.jpg",o:"VW Polo Sedan — бу-запчасти",q:"9 поз.",k:"6 кат."},{b:"VW",n:"vw tiguan 1",m:"volkswagen-tiguan",h:"volkswagen-tiguan.html",t:"VW Tiguan 1",s:"CAXA/CCZA, 2011-2017",p:"img/cars/volkswagen-tiguan.jpg",o:"VW Tiguan 1 — бу-запчасти",q:"47 поз.",k:"7 кат."}];;
-  (function(){
-    var g=document.getElementById("catalogGrid");
-    if(!g)return;
-    CATALOG.forEach(function(c){
-      var art=document.createElement("article");
-      art.className="p-card";
-      art.setAttribute("data-brand",c.b);
-      art.setAttribute("data-name",c.n);
-      art.setAttribute("data-model",c.m);
-      art.setAttribute("data-href",c.h);
-      art.innerHTML='<a class="p-photo" href="'+c.h+'" aria-label="'+c.t+' — открыть прайс"><img src="'+c.p+'" alt="'+c.o+'" loading="lazy"><span class="p-ribbon ok">В наличии</span></a>'+
-        '<div class="p-info"><h3><a href="'+c.h+'">'+c.t+'</a></h3>'+
-        '<div class="p-sub">'+c.s+'</div>'+
-        '<div class="p-meta"><span>'+c.q+'</span><span>'+c.k+'</span></div>'+
-        '<div class="p-price"><span class="old">799 &#8381;</span>499 &#8381;</div>'+
-        '<div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="'+c.m+'">Купить за 499 &#8381;</a></div></div>';
-      g.appendChild(art);
-    });
-  })();
-</script>
-
+    <div class="c-grid" id="catalogGrid">
+      <article class="p-card" data-brand="BMW" data-name="bmw 3 серии" data-model="bmw-3" data-href="bmw-3.html">
+  <a class="p-photo" href="bmw-3.html" aria-label="BMW 3 серии — открыть прайс"><img src="img/cars/bmw-3.jpg" alt="BMW 3 серии — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="bmw-3.html">BMW 3 серии</a></h3>
+    <div class="p-sub">E90, N46/N52</div>
+    <div class="p-meta"><span>32 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="bmw-3">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="BMW" data-name="bmw 5 серии" data-model="bmw-5" data-href="bmw-5.html">
+  <a class="p-photo" href="bmw-5.html" aria-label="BMW 5 серии — открыть прайс"><img src="img/cars/bmw-5.jpg" alt="BMW 5 серии — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="bmw-5.html">BMW 5 серии</a></h3>
+    <div class="p-sub">E60, N52</div>
+    <div class="p-meta"><span>31 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="bmw-5">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Chevrolet" data-name="chevrolet aveo" data-model="chevrolet-aveo" data-href="chevrolet-aveo.html">
+  <a class="p-photo" href="chevrolet-aveo.html" aria-label="Chevrolet Aveo — открыть прайс"><img src="img/cars/chevrolet-aveo.jpg" alt="Chevrolet Aveo — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="chevrolet-aveo.html">Chevrolet Aveo</a></h3>
+    <div class="p-sub">T250/T300, F15S3/F16</div>
+    <div class="p-meta"><span>38 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="chevrolet-aveo">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Chevrolet" data-name="chevrolet cruze" data-model="chevrolet-cruze" data-href="chevrolet-cruze.html">
+  <a class="p-photo" href="chevrolet-cruze.html" aria-label="Chevrolet Cruze — открыть прайс"><img src="img/cars/chevrolet-cruze.jpg" alt="Chevrolet Cruze — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="chevrolet-cruze.html">Chevrolet Cruze</a></h3>
+    <div class="p-sub">J300, F16D3/F18D4</div>
+    <div class="p-meta"><span>40 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="chevrolet-cruze">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Chevrolet" data-name="chevrolet lacetti" data-model="chevrolet-lacetti" data-href="chevrolet-lacetti.html">
+  <a class="p-photo" href="chevrolet-lacetti.html" aria-label="Chevrolet Lacetti — открыть прайс"><img src="img/cars/chevrolet-lacetti.jpg" alt="Chevrolet Lacetti — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="chevrolet-lacetti.html">Chevrolet Lacetti</a></h3>
+    <div class="p-sub">J200, F16D3</div>
+    <div class="p-meta"><span>34 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="chevrolet-lacetti">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Ford" data-name="ford focus 2/3" data-model="ford-focus" data-href="ford-focus.html">
+  <a class="p-photo" href="ford-focus.html" aria-label="Ford Focus 2/3 — открыть прайс"><img src="img/cars/ford-focus.jpg" alt="Ford Focus 2/3 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="ford-focus.html">Ford Focus 2/3</a></h3>
+    <div class="p-sub">Duratec, 2006-2016</div>
+    <div class="p-meta"><span>36 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="ford-focus">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Hyundai" data-name="hyundai creta" data-model="hyundai-creta" data-href="hyundai-creta.html">
+  <a class="p-photo" href="hyundai-creta.html" aria-label="Hyundai Creta — открыть прайс"><img src="img/cars/hyundai-creta.jpg" alt="Hyundai Creta — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="hyundai-creta.html">Hyundai Creta</a></h3>
+    <div class="p-sub">1.6 G4FG, 2019</div>
+    <div class="p-meta"><span>28 поз.</span><span>6 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="hyundai-creta">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Hyundai" data-name="hyundai elantra" data-model="hyundai-elantra" data-href="hyundai-elantra.html">
+  <a class="p-photo" href="hyundai-elantra.html" aria-label="Hyundai Elantra — открыть прайс"><img src="img/cars/hyundai-elantra.jpg" alt="Hyundai Elantra — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="hyundai-elantra.html">Hyundai Elantra</a></h3>
+    <div class="p-sub">HD/JK, G4FC/G4GC</div>
+    <div class="p-meta"><span>42 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="hyundai-elantra">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Hyundai" data-name="hyundai santa fe" data-model="hyundai-santa-fe" data-href="hyundai-santa-fe.html">
+  <a class="p-photo" href="hyundai-santa-fe.html" aria-label="Hyundai Santa Fe — открыть прайс"><img src="img/cars/hyundai-santa-fe.jpg" alt="Hyundai Santa Fe — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="hyundai-santa-fe.html">Hyundai Santa Fe</a></h3>
+    <div class="p-sub">DM, G4KJ</div>
+    <div class="p-meta"><span>53 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="hyundai-santa-fe">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Hyundai" data-name="hyundai solaris" data-model="hyundai-solaris" data-href="hyundai-solaris.html">
+  <a class="p-photo" href="hyundai-solaris.html" aria-label="Hyundai Solaris — открыть прайс"><img src="img/cars/hyundai-solaris.jpg" alt="Hyundai Solaris — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="hyundai-solaris.html">Hyundai Solaris</a></h3>
+    <div class="p-sub">1.6 G4FC, 2015</div>
+    <div class="p-meta"><span>40 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="hyundai-solaris">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Hyundai" data-name="hyundai tucson" data-model="hyundai-tucson" data-href="hyundai-tucson.html">
+  <a class="p-photo" href="hyundai-tucson.html" aria-label="Hyundai Tucson — открыть прайс"><img src="img/cars/hyundai-tucson.jpg" alt="Hyundai Tucson — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="hyundai-tucson.html">Hyundai Tucson</a></h3>
+    <div class="p-sub">LM/TLE, G4NA</div>
+    <div class="p-meta"><span>28 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="hyundai-tucson">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Kia" data-name="kia ceed" data-model="kia-ceed" data-href="kia-ceed.html">
+  <a class="p-photo" href="kia-ceed.html" aria-label="Kia Ceed — открыть прайс"><img src="img/cars/kia-ceed.jpg" alt="Kia Ceed — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="kia-ceed.html">Kia Ceed</a></h3>
+    <div class="p-sub">JD, G4FG</div>
+    <div class="p-meta"><span>46 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="kia-ceed">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Kia" data-name="kia optima" data-model="kia-optima" data-href="kia-optima.html">
+  <a class="p-photo" href="kia-optima.html" aria-label="Kia Optima — открыть прайс"><img src="img/cars/kia-optima.jpg" alt="Kia Optima — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="kia-optima.html">Kia Optima</a></h3>
+    <div class="p-sub">JF/TF, G4NA/G4KJ</div>
+    <div class="p-meta"><span>40 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="kia-optima">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Kia" data-name="kia rio" data-model="kia-rio" data-href="kia-rio.html">
+  <a class="p-photo" href="kia-rio.html" aria-label="Kia Rio — открыть прайс"><img src="img/cars/kia-rio.jpg" alt="Kia Rio — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="kia-rio.html">Kia Rio</a></h3>
+    <div class="p-sub">2019, 1.4 Comfort G4LC</div>
+    <div class="p-meta"><span>84 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="kia-rio">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Kia" data-name="kia sorento" data-model="kia-sorento" data-href="kia-sorento.html">
+  <a class="p-photo" href="kia-sorento.html" aria-label="Kia Sorento — открыть прайс"><img src="img/cars/kia-sorento.jpg" alt="Kia Sorento — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="kia-sorento.html">Kia Sorento</a></h3>
+    <div class="p-sub">XM/UM, G4KJ</div>
+    <div class="p-meta"><span>39 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="kia-sorento">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Kia" data-name="kia sportage" data-model="kia-sportage" data-href="kia-sportage.html">
+  <a class="p-photo" href="kia-sportage.html" aria-label="Kia Sportage — открыть прайс"><img src="img/cars/kia-sportage.jpg" alt="Kia Sportage — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="kia-sportage.html">Kia Sportage</a></h3>
+    <div class="p-sub">SL/QL, G4NA</div>
+    <div class="p-meta"><span>46 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="kia-sportage">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada" data-model="lada-2107" data-href="lada-2107.html">
+  <a class="p-photo" href="lada-2107.html" aria-label="Lada — открыть прайс"><img src="img/cars/lada-2107.jpg" alt="Lada — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-2107.html">Lada</a></h3>
+    <div class="p-sub">ВАЗ) 2107 (классика, 1.6</div>
+    <div class="p-meta"><span>37 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-2107">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada granta" data-model="lada-granta" data-href="lada-granta.html">
+  <a class="p-photo" href="lada-granta.html" aria-label="Lada Granta — открыть прайс"><img src="img/cars/lada-granta.jpg" alt="Lada Granta — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-granta.html">Lada Granta</a></h3>
+    <div class="p-sub">1.6, 2016</div>
+    <div class="p-meta"><span>38 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-granta">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada kalina / kalina 2" data-model="lada-kalina" data-href="lada-kalina.html">
+  <a class="p-photo" href="lada-kalina.html" aria-label="Lada Kalina / Kalina 2 — открыть прайс"><img src="img/cars/lada-kalina.jpg" alt="Lada Kalina / Kalina 2 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-kalina.html">Lada Kalina / Kalina 2</a></h3>
+    <div class="p-sub">1.6, 1117-2192</div>
+    <div class="p-meta"><span>38 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-kalina">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada largus" data-model="lada-largus" data-href="lada-largus.html">
+  <a class="p-photo" href="lada-largus.html" aria-label="Lada Largus — открыть прайс"><img src="img/cars/lada-largus.jpg" alt="Lada Largus — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-largus.html">Lada Largus</a></h3>
+    <div class="p-sub">1.6 K4M, 2016</div>
+    <div class="p-meta"><span>31 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-largus">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada niva 4x4" data-model="lada-niva" data-href="lada-niva.html">
+  <a class="p-photo" href="lada-niva.html" aria-label="Lada Niva 4x4 — открыть прайс"><img src="img/cars/lada-niva.jpg" alt="Lada Niva 4x4 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-niva.html">Lada Niva 4x4</a></h3>
+    <div class="p-sub">1.7 21214, 2018</div>
+    <div class="p-meta"><span>36 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-niva">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada priora" data-model="lada-priora" data-href="lada-priora.html">
+  <a class="p-photo" href="lada-priora.html" aria-label="Lada Priora — открыть прайс"><img src="img/cars/lada-priora.jpg" alt="Lada Priora — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-priora.html">Lada Priora</a></h3>
+    <div class="p-sub">1.6 16V, 2170·2010-2013</div>
+    <div class="p-meta"><span>24 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-priora">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada vesta" data-model="lada-vesta" data-href="lada-vesta.html">
+  <a class="p-photo" href="lada-vesta.html" aria-label="Lada Vesta — открыть прайс"><img src="img/cars/lada-vesta.jpg" alt="Lada Vesta — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-vesta.html">Lada Vesta</a></h3>
+    <div class="p-sub">1.8, 2018</div>
+    <div class="p-meta"><span>44 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-vesta">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Lada" data-name="lada xray" data-model="lada-xray" data-href="lada-xray.html">
+  <a class="p-photo" href="lada-xray.html" aria-label="Lada XRAY — открыть прайс"><img src="img/cars/lada-xray.jpg" alt="Lada XRAY — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="lada-xray.html">Lada XRAY</a></h3>
+    <div class="p-sub">1.6/1.8, 2016-2020</div>
+    <div class="p-meta"><span>34 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="lada-xray">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Mazda" data-name="mazda 6" data-model="mazda-6" data-href="mazda-6.html">
+  <a class="p-photo" href="mazda-6.html" aria-label="Mazda 6 — открыть прайс"><img src="img/cars/mazda-6.jpg" alt="Mazda 6 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="mazda-6.html">Mazda 6</a></h3>
+    <div class="p-sub">GG/GH, L8/LF</div>
+    <div class="p-meta"><span>34 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="mazda-6">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Mercedes" data-name="mercedes e-class w210" data-model="mercedes-e210" data-href="mercedes-e210.html">
+  <a class="p-photo" href="mercedes-e210.html" aria-label="Mercedes E-Class W210 — открыть прайс"><img src="img/cars/mercedes-e210.jpg" alt="Mercedes E-Class W210 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="mercedes-e210.html">Mercedes E-Class W210</a></h3>
+    <div class="p-sub">M111, 1996</div>
+    <div class="p-meta"><span>93 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="mercedes-e210">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Mercedes" data-name="mercedes-benz c-class w204" data-model="mercedes-w204" data-href="mercedes-w204.html">
+  <a class="p-photo" href="mercedes-w204.html" aria-label="Mercedes-Benz C-Class W204 — открыть прайс"><img src="img/cars/mercedes-w204.jpg" alt="Mercedes-Benz C-Class W204 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="mercedes-w204.html">Mercedes-Benz C-Class W204</a></h3>
+    <div class="p-sub">M271/M272</div>
+    <div class="p-meta"><span>30 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="mercedes-w204">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Mercedes" data-name="mercedes-benz e-class w211" data-model="mercedes-w211" data-href="mercedes-w211.html">
+  <a class="p-photo" href="mercedes-w211.html" aria-label="Mercedes-Benz E-Class W211 — открыть прайс"><img src="img/cars/mercedes-w211.jpg" alt="Mercedes-Benz E-Class W211 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="mercedes-w211.html">Mercedes-Benz E-Class W211</a></h3>
+    <div class="p-sub">M272</div>
+    <div class="p-meta"><span>29 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="mercedes-w211">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Mitsubishi" data-name="mitsubishi lancer x" data-model="mitsubishi-lancer" data-href="mitsubishi-lancer.html">
+  <a class="p-photo" href="mitsubishi-lancer.html" aria-label="Mitsubishi Lancer X — открыть прайс"><img src="img/cars/mitsubishi-lancer.jpg" alt="Mitsubishi Lancer X — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="mitsubishi-lancer.html">Mitsubishi Lancer X</a></h3>
+    <div class="p-sub">4A91/4B10</div>
+    <div class="p-meta"><span>38 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="mitsubishi-lancer">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Nissan" data-name="nissan almera classic / g15" data-model="nissan-almera" data-href="nissan-almera.html">
+  <a class="p-photo" href="nissan-almera.html" aria-label="Nissan Almera Classic / G15 — открыть прайс"><img src="img/cars/nissan-almera.jpg" alt="Nissan Almera Classic / G15 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="nissan-almera.html">Nissan Almera Classic / G15</a></h3>
+    <div class="p-sub">QG16DE</div>
+    <div class="p-meta"><span>33 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="nissan-almera">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Nissan" data-name="nissan qashqai" data-model="nissan-qashqai" data-href="nissan-qashqai.html">
+  <a class="p-photo" href="nissan-qashqai.html" aria-label="Nissan Qashqai — открыть прайс"><img src="img/cars/nissan-qashqai.jpg" alt="Nissan Qashqai — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="nissan-qashqai.html">Nissan Qashqai</a></h3>
+    <div class="p-sub">J10/J11, MR20DE</div>
+    <div class="p-meta"><span>21 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="nissan-qashqai">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Nissan" data-name="nissan teana" data-model="nissan-teana" data-href="nissan-teana.html">
+  <a class="p-photo" href="nissan-teana.html" aria-label="Nissan Teana — открыть прайс"><img src="img/cars/nissan-teana.jpg" alt="Nissan Teana — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="nissan-teana.html">Nissan Teana</a></h3>
+    <div class="p-sub">J31/J32, VQ25/VQ35</div>
+    <div class="p-meta"><span>27 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="nissan-teana">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Nissan" data-name="nissan x-trail" data-model="nissan-x-trail" data-href="nissan-x-trail.html">
+  <a class="p-photo" href="nissan-x-trail.html" aria-label="Nissan X-Trail — открыть прайс"><img src="img/cars/nissan-x-trail.jpg" alt="Nissan X-Trail — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="nissan-x-trail.html">Nissan X-Trail</a></h3>
+    <div class="p-sub">T31/T32, MR20DD/QR25</div>
+    <div class="p-meta"><span>37 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="nissan-x-trail">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Renault" data-name="renault duster 1" data-model="renault-duster" data-href="renault-duster.html">
+  <a class="p-photo" href="renault-duster.html" aria-label="Renault Duster 1 — открыть прайс"><img src="img/cars/renault-duster.jpg" alt="Renault Duster 1 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="renault-duster.html">Renault Duster 1</a></h3>
+    <div class="p-sub">K4M/F4R, 2013-2018</div>
+    <div class="p-meta"><span>36 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="renault-duster">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Renault" data-name="renault kaptur" data-model="renault-kaptur" data-href="renault-kaptur.html">
+  <a class="p-photo" href="renault-kaptur.html" aria-label="Renault Kaptur — открыть прайс"><img src="img/cars/renault-kaptur.jpg" alt="Renault Kaptur — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="renault-kaptur.html">Renault Kaptur</a></h3>
+    <div class="p-sub">H4M/F4R, 2016-2021</div>
+    <div class="p-meta"><span>28 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="renault-kaptur">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Renault" data-name="renault logan 1" data-model="renault-logan" data-href="renault-logan.html">
+  <a class="p-photo" href="renault-logan.html" aria-label="Renault Logan 1 — открыть прайс"><img src="img/cars/renault-logan.jpg" alt="Renault Logan 1 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="renault-logan.html">Renault Logan 1</a></h3>
+    <div class="p-sub">K7M/K4M, 2010-2015</div>
+    <div class="p-meta"><span>28 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="renault-logan">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Renault" data-name="renault megane 2/3" data-model="renault-megane" data-href="renault-megane.html">
+  <a class="p-photo" href="renault-megane.html" aria-label="Renault Megane 2/3 — открыть прайс"><img src="img/cars/renault-megane.jpg" alt="Renault Megane 2/3 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="renault-megane.html">Renault Megane 2/3</a></h3>
+    <div class="p-sub">K4M/F4R</div>
+    <div class="p-meta"><span>35 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="renault-megane">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Renault" data-name="renault sandero 1" data-model="renault-sandero" data-href="renault-sandero.html">
+  <a class="p-photo" href="renault-sandero.html" aria-label="Renault Sandero 1 — открыть прайс"><img src="img/cars/renault-sandero.jpg" alt="Renault Sandero 1 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="renault-sandero.html">Renault Sandero 1</a></h3>
+    <div class="p-sub">K7M/K4M, 2010-2016</div>
+    <div class="p-meta"><span>43 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="renault-sandero">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Skoda" data-name="skoda fabia 2" data-model="skoda-fabia" data-href="skoda-fabia.html">
+  <a class="p-photo" href="skoda-fabia.html" aria-label="Skoda Fabia 2 — открыть прайс"><img src="img/cars/skoda-fabia.jpg" alt="Skoda Fabia 2 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="skoda-fabia.html">Skoda Fabia 2</a></h3>
+    <div class="p-sub">BXW/BTS, 2007-2015</div>
+    <div class="p-meta"><span>36 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="skoda-fabia">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Skoda" data-name="skoda rapid" data-model="skoda-rapid" data-href="skoda-rapid.html">
+  <a class="p-photo" href="skoda-rapid.html" aria-label="Skoda Rapid — открыть прайс"><img src="img/cars/skoda-rapid.jpg" alt="Skoda Rapid — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="skoda-rapid.html">Skoda Rapid</a></h3>
+    <div class="p-sub">1.6, 2016</div>
+    <div class="p-meta"><span>14 поз.</span><span>6 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="skoda-rapid">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Skoda" data-name="skoda yeti" data-model="skoda-yeti" data-href="skoda-yeti.html">
+  <a class="p-photo" href="skoda-yeti.html" aria-label="Skoda Yeti — открыть прайс"><img src="img/cars/skoda-yeti.jpg" alt="Skoda Yeti — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="skoda-yeti.html">Skoda Yeti</a></h3>
+    <div class="p-sub">CBZA/CAXA, 2010-2017</div>
+    <div class="p-meta"><span>20 поз.</span><span>6 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="skoda-yeti">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Subaru" data-name="subaru forester" data-model="subaru-forester" data-href="subaru-forester.html">
+  <a class="p-photo" href="subaru-forester.html" aria-label="Subaru Forester — открыть прайс"><img src="img/cars/subaru-forester.jpg" alt="Subaru Forester — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="subaru-forester.html">Subaru Forester</a></h3>
+    <div class="p-sub">SH, EJ20/EJ25</div>
+    <div class="p-meta"><span>34 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="subaru-forester">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Toyota" data-name="toyota auris / corolla" data-model="toyota-auris" data-href="toyota-auris.html">
+  <a class="p-photo" href="toyota-auris.html" aria-label="Toyota Auris / Corolla — открыть прайс"><img src="img/cars/toyota-auris.jpg" alt="Toyota Auris / Corolla — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="toyota-auris.html">Toyota Auris / Corolla</a></h3>
+    <div class="p-sub">E180, 1ZR-FE</div>
+    <div class="p-meta"><span>35 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="toyota-auris">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Toyota" data-name="toyota camry" data-model="toyota-camry" data-href="toyota-camry.html">
+  <a class="p-photo" href="toyota-camry.html" aria-label="Toyota Camry — открыть прайс"><img src="img/cars/toyota-camry.jpg" alt="Toyota Camry — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="toyota-camry.html">Toyota Camry</a></h3>
+    <div class="p-sub">2018, XV70</div>
+    <div class="p-meta"><span>35 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="toyota-camry">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Toyota" data-name="toyota corolla" data-model="toyota-corolla" data-href="toyota-corolla.html">
+  <a class="p-photo" href="toyota-corolla.html" aria-label="Toyota Corolla — открыть прайс"><img src="img/cars/toyota-corolla.jpg" alt="Toyota Corolla — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="toyota-corolla.html">Toyota Corolla</a></h3>
+    <div class="p-sub">E180, 1.6 1ZR-FE, 2016</div>
+    <div class="p-meta"><span>36 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="toyota-corolla">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Toyota" data-name="toyota land cruiser prado 150" data-model="toyota-prado" data-href="toyota-prado.html">
+  <a class="p-photo" href="toyota-prado.html" aria-label="Toyota Land Cruiser Prado 150 — открыть прайс"><img src="img/cars/toyota-prado.jpg" alt="Toyota Land Cruiser Prado 150 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="toyota-prado.html">Toyota Land Cruiser Prado 150</a></h3>
+    <div class="p-sub">2TR/1GR</div>
+    <div class="p-meta"><span>39 поз.</span><span>6 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="toyota-prado">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="Toyota" data-name="toyota rav4" data-model="toyota-rav4" data-href="toyota-rav4.html">
+  <a class="p-photo" href="toyota-rav4.html" aria-label="Toyota RAV4 — открыть прайс"><img src="img/cars/toyota-rav4.jpg" alt="Toyota RAV4 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="toyota-rav4.html">Toyota RAV4</a></h3>
+    <div class="p-sub">XA40, 3ZR/2AR, 2013-2019</div>
+    <div class="p-meta"><span>42 поз.</span><span>6 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="toyota-rav4">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="VW" data-name="vw passat b6/b7" data-model="volkswagen-passat" data-href="volkswagen-passat.html">
+  <a class="p-photo" href="volkswagen-passat.html" aria-label="VW Passat B6/B7 — открыть прайс"><img src="img/cars/volkswagen-passat.jpg" alt="VW Passat B6/B7 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="volkswagen-passat.html">VW Passat B6/B7</a></h3>
+    <div class="p-sub">TSI/Duratec, 2008-2019</div>
+    <div class="p-meta"><span>41 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="volkswagen-passat">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="VW" data-name="vw polo sedan" data-model="volkswagen-polo" data-href="volkswagen-polo.html">
+  <a class="p-photo" href="volkswagen-polo.html" aria-label="VW Polo Sedan — открыть прайс"><img src="img/cars/volkswagen-polo.jpg" alt="VW Polo Sedan — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="volkswagen-polo.html">VW Polo Sedan</a></h3>
+    <div class="p-sub">1.6 CWVA, 2016</div>
+    <div class="p-meta"><span>9 поз.</span><span>6 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="volkswagen-polo">Купить за 499 ₽</a></div>
+  </div>
+</article>
+<article class="p-card" data-brand="VW" data-name="vw tiguan 1" data-model="volkswagen-tiguan" data-href="volkswagen-tiguan.html">
+  <a class="p-photo" href="volkswagen-tiguan.html" aria-label="VW Tiguan 1 — открыть прайс"><img src="img/cars/volkswagen-tiguan.jpg" alt="VW Tiguan 1 — бу-запчасти" loading="lazy">
+    <span class="p-ribbon ok">В наличии</span>
+  </a>
+  <div class="p-info">
+    <h3><a href="volkswagen-tiguan.html">VW Tiguan 1</a></h3>
+    <div class="p-sub">CAXA/CCZA, 2011-2017</div>
+    <div class="p-meta"><span>47 поз.</span><span>7 кат.</span></div>
+    <div class="p-price"><span class="old">799 ₽</span>499 ₽</div>
+    <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="volkswagen-tiguan">Купить за 499 ₽</a></div>
+  </div>
+</article>
+    </div>
+  </div>
 </section>
 
 <section id="benefits" class="alt">
