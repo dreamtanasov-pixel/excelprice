@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
@@ -113,7 +113,7 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
 
   /* Search / brands */
   .quick{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;margin-top:-28px;position:relative;z-index:5;box-shadow:var(--shadow)}
-  .quick-search{display:flex;gap:12px;align-items:center;position:relative}
+  .quick-search{display:none}
   .quick-search i.ico{position:absolute;left:16px;color:var(--muted);font-style:normal}
   .quick-search input{flex:1;width:100%;padding:15px 16px 15px 44px;border:2px solid var(--line);border-radius:14px;font-size:16px;font-family:var(--font);min-height:52px}
   .quick-search input:focus{outline:none;border-color:var(--brand)}
@@ -350,68 +350,6 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
     <button class="f-btn" data-f="Subaru">Subaru</button>
     <button class="f-btn" data-f="Toyota">Toyota</button>
     <button class="f-btn" data-f="VW">VW</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="benefits" class="alt">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Что вы получаете</h2>
-      <p>Полную Excel-таблицу: все запчасти на вашу модель авто и по каждой — актуальные цены со всего интернета. Ничего искать самому не нужно.</p>
-    </div>
-    <div class="benefits">
-      <div class="b-card"><div class="b-ico"><i class="bi bi-car-front"></i></div><h3>Частным автовладельцам</h3><ul>
-        <li>Полная таблица всех запчастей на вашу модель</li>
-        <li>Цены со всего интернета по каждой позиции</li>
-        <li>Где дешевле всего — ссылки на объявления по России</li>
-        <li>Проверка цены: не переплатите на разборке</li>
-      </ul></div>
-      <div class="b-card"><div class="b-ico"><i class="bi bi-shop"></i></div><h3>Авторазборкам и магазинам</h3><ul>
-        <li>Готовый прайс-лист по модели: мин / макс / средняя</li>
-        <li>Категории, артикулы, примечания для менеджеров</li>
-        <li>Лист с источниками и дашборд-сводка</li>
-        <li>Регулярное обновление цен</li>
-      </ul></div>
-      <div class="b-card"><div class="b-ico"><i class="bi bi-tools"></i></div><h3>Отдельные задачи</h3><ul>
-        <li>Только нужные категории, а не вся таблица</li>
-        <li>Сравнение цен по регионам (вся Россия / ваш город)</li>
-        <li>Проверка выгрузок из 1С и каталогов</li>
-        <li>Пересборка и доработка старых таблиц</li>
-      </ul></div>
-    </div>
-  </div>
-</section>
-
-<section id="process">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Как проходит работа</h2>
-      <p>Минимум вашего участия — марка, модель и год. Остальное делаю я. Помогает и частнику, и бизнесу.</p>
-    </div>
-    <div class="steps">
-      <div class="step"><h3>Заявка</h3><p>Вы пишете: марка, модель, год и объём двигателя. Список деталей собираем сами.</p></div>
-      <div class="step"><h3>Сбор цен</h3><p>Изучаю Avito, Drom, разборки и контрактные магазины по вашей модели.</p></div>
-      <div class="step"><h3>Сборка файла</h3><p>Структурирую в Excel: категории, артикулы, мин/макс/средняя цена.</p></div>
-      <div class="step"><h3>Сдача и правки</h3><p>Отправляю файл. Вношу правки — до 2 итераций бесплатно.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="sample" class="alt">
-  <div class="wrap">
-    <div class="sample">
-      <div class="sample-txt">
-        <h3>Пример выполненной работы: Kia Rio 2019</h3>
-        <p>Полный ассортимент бу-запчастей по российскому рынку: двигатель, КПП, подвеска, тормоза, кузов, электрика, салон. В каждой строке — лучшая цена по России и ссылки на предложения (Avito и Дром). Дата актуализации: сентябрь 2026.</p>
-        <p style="margin-top:14px"><a class="btn btn-primary" href="buy-zapchasti-kia-rio-2019-v2.xlsx" download>Скачать пример (Excel)</a></p>
-        <p style="margin-top:8px;font-size:13px;opacity:.7">Файл .xlsx: прайс, сводка по категориям, источники</p>
-      </div>
-      <div class="stats">
-        <div><div class="n">84</div><div class="l">позиции</div></div>
-        <div><div class="n">7</div><div class="l">категорий</div></div>
-        <div><div class="n">54</div><div class="l">с фикс. ценой</div></div>
       </div>
     </div>
   </div>
@@ -1029,6 +967,68 @@ _tmr.push({id: "3797393", type: "pageView", start: (new Date()).getTime()});
     <div class="p-actions"><a class="btn btn-primary btn-buy" href="javascript:void(0)" data-model="volkswagen-tiguan">Купить за 499 ₽</a></div>
   </div>
 </article>
+    </div>
+  </div>
+</section>
+
+<section id="benefits" class="alt">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Что вы получаете</h2>
+      <p>Полную Excel-таблицу: все запчасти на вашу модель авто и по каждой — актуальные цены со всего интернета. Ничего искать самому не нужно.</p>
+    </div>
+    <div class="benefits">
+      <div class="b-card"><div class="b-ico"><i class="bi bi-car-front"></i></div><h3>Частным автовладельцам</h3><ul>
+        <li>Полная таблица всех запчастей на вашу модель</li>
+        <li>Цены со всего интернета по каждой позиции</li>
+        <li>Где дешевле всего — ссылки на объявления по России</li>
+        <li>Проверка цены: не переплатите на разборке</li>
+      </ul></div>
+      <div class="b-card"><div class="b-ico"><i class="bi bi-shop"></i></div><h3>Авторазборкам и магазинам</h3><ul>
+        <li>Готовый прайс-лист по модели: мин / макс / средняя</li>
+        <li>Категории, артикулы, примечания для менеджеров</li>
+        <li>Лист с источниками и дашборд-сводка</li>
+        <li>Регулярное обновление цен</li>
+      </ul></div>
+      <div class="b-card"><div class="b-ico"><i class="bi bi-tools"></i></div><h3>Отдельные задачи</h3><ul>
+        <li>Только нужные категории, а не вся таблица</li>
+        <li>Сравнение цен по регионам (вся Россия / ваш город)</li>
+        <li>Проверка выгрузок из 1С и каталогов</li>
+        <li>Пересборка и доработка старых таблиц</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Как проходит работа</h2>
+      <p>Минимум вашего участия — марка, модель и год. Остальное делаю я. Помогает и частнику, и бизнесу.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Заявка</h3><p>Вы пишете: марка, модель, год и объём двигателя. Список деталей собираем сами.</p></div>
+      <div class="step"><h3>Сбор цен</h3><p>Изучаю Avito, Drom, разборки и контрактные магазины по вашей модели.</p></div>
+      <div class="step"><h3>Сборка файла</h3><p>Структурирую в Excel: категории, артикулы, мин/макс/средняя цена.</p></div>
+      <div class="step"><h3>Сдача и правки</h3><p>Отправляю файл. Вношу правки — до 2 итераций бесплатно.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="sample" class="alt">
+  <div class="wrap">
+    <div class="sample">
+      <div class="sample-txt">
+        <h3>Пример выполненной работы: Kia Rio 2019</h3>
+        <p>Полный ассортимент бу-запчастей по российскому рынку: двигатель, КПП, подвеска, тормоза, кузов, электрика, салон. В каждой строке — лучшая цена по России и ссылки на предложения (Avito и Дром). Дата актуализации: сентябрь 2026.</p>
+        <p style="margin-top:14px"><a class="btn btn-primary" href="buy-zapchasti-kia-rio-2019-v2.xlsx" download>Скачать пример (Excel)</a></p>
+        <p style="margin-top:8px;font-size:13px;opacity:.7">Файл .xlsx: прайс, сводка по категориям, источники</p>
+      </div>
+      <div class="stats">
+        <div><div class="n">84</div><div class="l">позиции</div></div>
+        <div><div class="n">7</div><div class="l">категорий</div></div>
+        <div><div class="n">54</div><div class="l">с фикс. ценой</div></div>
+      </div>
     </div>
   </div>
 </section>
